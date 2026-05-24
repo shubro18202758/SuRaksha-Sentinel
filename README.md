@@ -11,64 +11,57 @@
   <b>Canara-inspired explainable underwriting intelligence for real-time document, source, entity, and fund-flow anomaly detection.</b>
 </p>
 
-SuRaksha Sentinel is a full-stack hackathon prototype for the SuRaksha Cyber Hackathon Theme 1 problem: detecting tampering, changes, and forgery attempts across land records, legal documents, and financial statements in real time, then turning the detection evidence into transparent underwriting decisions.
+<p align="center">
+  <a href="#the-prototype-story">Story</a> |
+  <a href="#how-the-demo-feels">Demo Flow</a> |
+  <a href="#architecture">Architecture</a> |
+  <a href="#ai-core">AI Core</a> |
+  <a href="#run-locally">Run Locally</a> |
+  <a href="#validation">Validation</a>
+</p>
 
-The prototype is not a clone of Canara Bank systems and does not claim access to Canara internal data. It is a Canara-familiar workbench shaped around public banking patterns: digital lending, branch underwriting, fraud monitoring, compliance trails, borrower verification, and regulator-ready decision support.
+SuRaksha Sentinel is a full-stack hackathon prototype for the SuRaksha Cyber Hackathon Theme 1 challenge: detecting tampering, changes, and forgery attempts across land records, legal documents, and financial statements in real time, then converting that evidence into reliable underwriting insight. The project is built as a Canara-familiar intelligence workbench rather than a generic fraud dashboard. It speaks in the language of branch underwriting, borrower verification, collateral due diligence, public-source risk, compliance trails, and human review.
 
-The README diagrams below are Mermaid architecture diagrams generated from this repository. They are schematic documentation, not screenshots and not fictional UI captures.
+This repository does not claim access to Canara Bank internal systems, internal data, production transaction streams, or non-public architecture. The Canara alignment is intentionally limited to public-facing digital banking patterns, public Canara material, public regulator/security sources, and a local demo environment that makes the Theme 1 workflow concrete. All demo registry and transaction facts are marked as local demo data, while live public connectors expose provenance, freshness, and degraded states instead of pretending stale data is live.
 
-## Contents
+The visuals in this README are badges and Mermaid diagrams generated from the repository architecture. They are documentation diagrams, not screenshots and not fictional UI captures.
 
-- [What It Solves](#what-it-solves)
-- [Experience Summary](#experience-summary)
-- [System Architecture](#system-architecture)
-- [Four-Stage Demo Flow](#four-stage-demo-flow)
-- [Core Capabilities](#core-capabilities)
-- [Qwen 3.5 4B AI Core](#qwen-35-4b-ai-core)
-- [Data Packs And Provenance](#data-packs-and-provenance)
-- [API Surface](#api-surface)
-- [Repository Structure](#repository-structure)
-- [Run Locally](#run-locally)
-- [Validation](#validation)
-- [Demo Script](#demo-script)
-- [Privacy, Ethics, And Scope](#privacy-ethics-and-scope)
-- [Troubleshooting](#troubleshooting)
+## The Prototype Story
 
-## What It Solves
+Indian underwriting often depends on a mixed document set: land records, sale deeds, legal declarations, bank statements, GST references, invoices, guarantor proofs, and public-source corroboration. A single forged survey number, altered statement total, manipulated stamp, or circular transaction can change the credit decision. The central idea behind SuRaksha Sentinel is that a bank underwriter should not only see that a risk has been flagged; they should see why it was flagged, which evidence supports it, how confident the system is, what source-of-truth trace was used, and what human action should happen next.
 
-Banks need to make faster underwriting decisions without weakening fraud controls. Theme 1 asks for real-time anomaly detection across:
+The prototype therefore treats anomaly detection as an explainable workflow rather than a black-box prediction. Deterministic local services generate evidence facts such as document regions, source traces, financial series, flow paths, media previews, connector states, and audit events. Local Qwen 3.5 4B then acts as the reasoning and narrative layer that turns those facts into concise explanations, underwriting memos, counterfactual summaries, and agent responses. This keeps the model focused on what it can do well in a local 4B deployment: grounded reasoning over compact evidence packs.
 
-| Document family | Prototype focus | Explainable output |
-| --- | --- | --- |
-| Land records | Survey number edits, area mismatch, revenue stamp issues, ownership-chain inconsistency | Document overlays, source-of-truth trace, branch action |
-| Legal documents | Signature mismatch, backdated notarization, altered clauses, missing witness requirements | Visual integrity stream, reference comparison, confidence calibration |
-| Financial statements | Doctored totals, circular transactions, revenue spikes, suppressed expenses | Fund-flow path, financial trend anomaly, Qwen memo |
+At the UI level, the system is designed as a professional banking workbench. The Command Center gives the portfolio posture and active case context. The Explainable Detection tab is the primary Theme 1 experience, showing ingestion, document overlays, anomaly explanations, decomposable risk, and tamper-evident audit history. Signal Radar adds public-source intelligence with media previews and provenance. Entity Graph and Financials bring the relationship and fund-flow surfaces, including Three.js scenes for 3D transaction and entity analysis. Qwen Ops exposes the model runtime rather than hiding it, because the model is supposed to be the core local intelligence engine. Report Center turns the entire investigation into a reviewer-ready package.
 
-The system is designed for human review. It does not silently reject borrowers. It gives underwriters a clear explanation of what was flagged, why it matters, what evidence supports it, and what action should happen next.
+## How The Demo Feels
 
-## Experience Summary
+The evaluator opens the application as a branch underwriter and lands in a Canara-inspired command surface. The first view communicates the active case, the current Sentinel Risk Index, the connected public sources, the state of the local Qwen runtime, and the benchmark map that explains how the prototype improves familiar public banking workflows such as digital lending, due diligence, fraud monitoring, and compliance review. The interface uses the Canara blue/yellow design language without impersonating the real production site.
 
-The application runs as a Canara-inspired multi-tab underwriting command center:
+The main workflow begins when the underwriter switches to Explainable Detection and selects a loan profile such as agricultural land mortgage, MSME working capital, retail home loan, or corporate credit. The backend loads profile-specific requirements, thresholds, local demo registry references, and the document intelligence case. Instead of showing a silent spinner, the UI presents a natural-language ingestion sequence such as classifying the collateral document, extracting survey and area facts, checking a demo Bhoomi-style registry, running visual integrity analysis, preparing explanation cards, and hashing the audit event.
 
-| Workspace tab | Purpose |
-| --- | --- |
-| Command Center | Portfolio posture, current case, risk index, benchmark mapping, live media/source intelligence |
-| Explainable Detection | Primary Theme 1 workflow: ingestion, document overlay, anomaly reasoning, risk decomposition, audit trail |
-| Signal Radar | Public-source intelligence with provenance, freshness, media previews, stale/degraded states |
-| Entity Graph | 2D and 3D relationship analysis across borrower, documents, branch, source, property, account, and counterparty nodes |
-| Financials | Live demo transaction layer, 3D fund-flow tracker, anomaly ledger, Qwen flow explanations |
-| Qwen Ops | Local model status, GPU residency, context budget, warmup, task profiles, deterministic fallback state |
-| Report Center | Decision package, audit export, source citations, reviewer next actions |
+Once the document set is processed, the workbench splits into evidence and reasoning. The document viewer shows color-coded anomaly overlays on the left. The reasoning panel on the right explains the selected anomaly in plain language, shows calibrated confidence, compares observed evidence with the expected baseline, links the source-of-truth trace, and offers deeper inspection through attention replay. The result is not just "high risk"; it is a defensible answer about the exact document region, the relevant source, the model's uncertainty, and the reviewer action.
 
-The interface includes:
+The risk score is then decomposed into Document Authenticity, Data Veracity, Financial Integrity, and Source Trustworthiness. Qwen can generate a bounded underwriting memo from these pieces, while deterministic fallback text remains available when the model is unavailable or returns invalid structure. A counterfactual explorer lets the reviewer ask what would happen if a particular anomaly were genuine, removed, or downgraded. The human reviewer can still override the recommendation, and that disagreement becomes part of the audit trail instead of being lost.
 
-- Canara-style blue/yellow banking palette with gradient surfaces.
-- Smooth graph-theory background animation across the prototype.
-- Live media preview mosaics for public-source images, PDFs, and video thumbnails.
-- Multi-window investigation surfaces for dossiers, source feeds, 3D flow, entity graph, Qwen console, report builder, and media viewer.
-- Context-aware local agent dock that can perform only allowlisted UI actions.
+The final stage is the compliance trail. Every major event is hash-chained locally: ingestion, detection, explanation, counterfactual, reviewer action, and export. This is a prototype-grade tamper-evident chain, not a production blockchain deployment. Its role is to prove the audit pattern clearly: a regulator, branch manager, or risk officer can replay the state of reasoning that existed when a decision was made.
 
-## System Architecture
+```mermaid
+stateDiagram-v2
+  [*] --> Ingestion
+  Ingestion: Loan profile, document set, requirements, thresholds
+  Ingestion --> Detection
+  Detection: Visual integrity, data consistency, financial anomaly streams
+  Detection --> Risk
+  Risk: Decomposed risk score, Qwen memo, counterfactuals, reviewer override
+  Risk --> Audit
+  Audit: Hash chain, replay, report export, compliance payload
+  Audit --> [*]
+```
+
+## Architecture
+
+The application uses a FastAPI backend, a React/Vite frontend, WebSocket live updates, Three.js rendering for 3D scenes, Recharts-style analytical views, and a local Qwen runtime through Ollama. The backend is responsible for dynamic data generation, live connector status, source media resolution, document intelligence, flow intelligence, agent guardrails, and Qwen prompt routing. The frontend renders API state rather than owning hardcoded dashboard metrics.
 
 ```mermaid
 flowchart LR
@@ -81,12 +74,12 @@ flowchart LR
   end
 
   subgraph LocalData["Local data packs"]
-    DOSSIERS["data/dossiers.json"]
-    LOANS["data/loan_profiles.json"]
-    DOCINTEL["data/document_intelligence_cases.json"]
-    REGISTRY["data/mock_registries.json"]
-    FRAUD["data/india_fraud_context.json"]
-    BENCH["data/canara_public_benchmark.json"]
+    DOSSIERS["dossiers.json"]
+    LOANS["loan_profiles.json"]
+    DOCINTEL["document_intelligence_cases.json"]
+    REGISTRY["mock_registries.json"]
+    FRAUD["india_fraud_context.json"]
+    BENCH["canara_public_benchmark.json"]
   end
 
   subgraph Backend["FastAPI backend"]
@@ -106,8 +99,8 @@ flowchart LR
 
   subgraph Frontend["React Vite workbench"]
     WS["WebSocket live stream"]
-    UI["Multi-tab Canara-inspired UI"]
-    THREE["Three.js 3D scenes"]
+    UI["Multi-tab banking workbench"]
+    THREE["Three.js scenes"]
     REPORT["Audit and report export"]
   end
 
@@ -131,241 +124,117 @@ flowchart LR
   QWEN --> OLLAMA --> MODEL
 ```
 
-## Four-Stage Demo Flow
+The system has been intentionally separated into small backend services. `sentinel_engine.py` builds the live workspace snapshot. `document_intelligence.py` handles loan-profile workflows, anomaly cards, risk decomposition, counterfactuals, override records, and audit export. `flow_engine.py` creates the local demo transaction and 3D graph state. `connectors.py` manages public-source freshness and stale/degraded status. `source_media.py` resolves images, PDFs, and video thumbnails from source pages. `qwen_runtime.py` and `qwen_adapter.py` keep the local model profile visible and bounded. `agent_service.py` receives active UI context and returns cited responses with only allowlisted actions.
 
-```mermaid
-stateDiagram-v2
-  [*] --> Ingestion
-  Ingestion: Stage 1 - Loan profile and document set
-  Ingestion --> Detection
-  Detection: Stage 2 - Visual, data, and financial streams
-  Detection --> Risk
-  Risk: Stage 3 - Decomposable risk and Qwen memo
-  Risk --> Audit
-  Audit: Stage 4 - Hash-chained compliance trail
-  Audit --> [*]
-```
+The frontend mirrors that structure as an operator workspace. `App.tsx` owns the shell, tab routing, live stream handling, agent dock, upload controls, and window manager. `WorkspaceViews.tsx` renders the command, detection, radar, graph, financial, Qwen, and report surfaces. `Flow3DScenes.tsx` owns the interactive 3D fund-flow and entity graph scenes, including persistent camera behavior. `GraphTheoryBackdrop.tsx` provides the continuous animated graph-theory background. `styles.css` carries the Canara-inspired gradient visual system, responsive layout rules, and specialized chart, media, map, and card styling.
 
-### Stage 1: Unified Document Ingestion
+## Theme Coverage
 
-The underwriter selects a loan profile such as agricultural land mortgage, MSME working capital, retail home loan, or corporate credit. The backend loads the profile thresholds, required documents, local demo registry references, and case-specific dossier context.
+The Theme 1 requirement is covered by a document-first workflow, but the prototype deliberately expands the evidence surface because real underwriting decisions rarely depend on one document alone. Land records are checked for survey number edits, area mismatches, revenue-stamp inconsistencies, and ownership-chain conflicts. Legal documents are treated as a visual and textual integrity problem, where signatures, witness fields, clauses, and dates can carry risk. Financial statements are analyzed through trends, materiality, circular transaction paths, cash spikes, and consistency with local demo GST/MSME baselines.
 
-The UI streams natural-language processing progress, for example:
+The result is a unified picture: a tampered land record can be connected to a borrower profile, a property region, a legal reference, a public-source signal, and a fund-flow anomaly. That is why the prototype includes document overlays, source media, maps, charts, 3D entity graphs, 3D transaction flows, Qwen reasoning, and audit export in the same workspace. The intent is to show an underwriting intelligence layer, not a single-purpose document viewer.
 
-```text
-Classifying land collateral file
-Extracting survey number and area facts
-Cross-checking demo Bhoomi-style registry
-Running visual integrity stream
-Preparing explainability cards
-Hashing audit event
-```
+| Theme surface | How the prototype handles it | Human-review output |
+| --- | --- | --- |
+| Land records | Document overlays, registry-style source traces, collateral geography, ownership context | Branch verification, registrar escalation, collateral hold |
+| Legal documents | Signature and clause anomaly cards, witness/reference checks, attention replay | Legal-cell review, specimen comparison, original-chain validation |
+| Financial statements | Time-series anomaly, 3D fund-flow graph, circularity and materiality scoring | Statement recheck, GST/invoice verification, disbursement lock |
 
-### Stage 2: Real-Time Anomaly Detection
+## Explainability
 
-The Explainable Detection workbench is built around two synchronized panels:
+Explainability is not placed at the end of the workflow as a decorative summary. It is embedded into every major decision surface. Each anomaly has an identifier, severity, confidence, page region, observed fact, expected baseline, source trace, and evidence reference. The reasoning panel can shift between executive, standard, and forensic detail so the same finding can be read by a branch underwriter, a risk reviewer, or a technical evaluator.
 
-- Document viewer with color-coded anomaly overlays and attention replay paths.
-- AI reasoning panel with "Why this?", confidence calibration, expected baseline, source trace, and reviewer action.
+The model is asked to explain compact evidence packs, not unbounded raw documents. This matters because the local Qwen 3.5 4B model is strong enough for grounded summarization, comparison, memo drafting, and agentic assistance, but it should not be treated as a vision/OCR model. The raw facts come from local deterministic/demo services; Qwen turns those facts into usable, cited language. When Qwen is missing, slow, or malformed, the backend falls back to deterministic summaries so the demo remains functional.
 
-The backend emits three evidence streams:
+The audit trail extends that explainability into compliance. If a reviewer later asks why a score changed, why a branch escalation was recommended, or why an override was recorded, the relevant audit event can be replayed with the same anomaly identifiers, evidence identifiers, source traces, and hash chain context.
 
-| Stream | What it checks |
-| --- | --- |
-| Visual Integrity | Tamper heat, stamp inconsistency, copy/paste artifacts, signature anomalies, font/scan mismatch |
-| Data Consistency | Borrower names, dates, PAN-like identifiers, survey numbers, property IDs, registry facts |
-| Financial Anomaly | Circular fund flow, unusual deposits, statement mismatch, margin deviation, materiality spikes |
+## AI Core
 
-### Stage 3: Explainable Underwriting Risk
+Qwen 3.5 4B is the prototype's local reasoning core. The default runtime target is `qwen3.5:4b-q4_K_M` through Ollama at `http://127.0.0.1:11434`. The default effective context is `4096`, with larger windows only appropriate when runtime telemetry indicates safe VRAM headroom. The model profile uses low-temperature, JSON-oriented, task-specific output budgets so document explanations, flow briefs, counterfactuals, and agent turns stay fast and bounded.
 
-The composite risk score is decomposed by fixed underwriting weights:
-
-| Component | Weight |
-| --- | ---: |
-| Document Authenticity | 30% |
-| Data Veracity | 25% |
-| Financial Integrity | 25% |
-| Source Trustworthiness | 20% |
-
-Each sub-score is clickable in the UI. Qwen provides bounded, cited explanation text when available. Deterministic fallback summaries are returned when Qwen is unavailable or produces malformed output.
-
-### Stage 4: Tamper-Evident Audit Trail
-
-Every workflow action is recorded as a local hash-chained audit event. This is a prototype-grade tamper-evident chain, not a public blockchain deployment.
-
-```mermaid
-sequenceDiagram
-  participant U as Underwriter
-  participant API as FastAPI
-  participant D as Detector
-  participant Q as Local Qwen
-  participant A as Audit Chain
-
-  U->>API: Select profile and ingest document set
-  API->>D: Build deterministic evidence facts
-  D->>A: Hash ingestion and detection events
-  API->>Q: Request cited explanation pack
-  Q->>API: Return bounded narrative or fail
-  API->>A: Hash explanation or fallback event
-  U->>API: Override or accept recommendation
-  API->>A: Hash reviewer decision
-```
-
-## Core Capabilities
-
-### Explainable Document Intelligence
-
-- Loan-profile specific requirements and thresholds.
-- Demo document intelligence cases for genuine and tampered dossiers.
-- Page-level anomaly overlays with bounding boxes.
-- Severity, confidence, baseline, source trace, and evidence IDs per anomaly.
-- Attention replay sequence for selected findings.
-- Counterfactual risk delta for "what if this anomaly were genuine or removed?".
-- English, Hindi, and Kannada explanation setting support.
-
-### Live Source And Media Intelligence
-
-- Public-source connector status with provenance and freshness.
-- Stale-if-error behavior instead of fake live claims.
-- Source media resolver for public page images, PDFs, and video thumbnails.
-- Preview proxy endpoints for source images and PDF/page previews.
-- Upload-backed evidence catalog for local image, PDF, and video assets.
-- Expanded media mosaics to reduce repeated preview appearance.
-
-### 3D Fund-Flow And Entity Rendering
-
-- Three.js fund-flow scene with risk-colored nodes and animated transaction paths.
-- Entity graph scene for borrower, account, branch, property, document, source, and counterparty relationships.
-- Persistent camera state so user rotation and zoom do not snap back immediately.
-- Reduced-motion and WebGL fallback paths.
-- Selected-path details and Qwen "explain this flow" support.
-
-### Canara-Familiar Benchmark Layer
-
-The benchmark panel maps public Canara-facing patterns to prototype innovation areas:
-
-| Public pattern | Prototype improvement |
-| --- | --- |
-| Digital security and fraud monitoring | Explainable transaction and document anomaly workbench |
-| Digital lending journeys | Loan-profile specific ingestion and decision support |
-| MSME credit assessment | Financial anomaly stream and fund-flow ledger |
-| Loan due diligence | Borrower, guarantor, document, source, and collateral checklist |
-| Cyber awareness and compliance | Audit trail, source provenance, reviewer next actions |
-
-Sources are public Canara/regulatory/security references only. The prototype does not claim any internal Canara architecture or data access.
-
-### Context-Aware Local Agent
-
-The copilot is not a free-form external chatbot. It receives active workspace context and can only propose or execute allowlisted actions:
-
-```mermaid
-flowchart TB
-  Context["Active case, tab, filters, windows, selected anomaly, flow path, audit event"] --> Agent["Agent service"]
-  Agent --> Guardrails["Action allowlist and schema validation"]
-  Guardrails --> Qwen["Local Qwen reasoning"]
-  Guardrails --> Fallback["Deterministic fallback"]
-  Qwen --> Response["Cited answer and safe UI actions"]
-  Fallback --> Response
-```
-
-Supported action families include selecting cases/documents/anomalies, switching tabs, opening windows, filtering signals, running counterfactuals, explaining flow paths, opening audit events, warming Qwen, and exporting reports.
-
-## Qwen 3.5 4B AI Core
-
-The prototype is tuned around local `qwen3.5:4b-q4_K_M` through Ollama.
-
-| Setting | Default |
+| Runtime field | Default value |
 | --- | --- |
 | Model | `qwen3.5:4b-q4_K_M` |
 | Runtime | Ollama |
 | Endpoint | `http://127.0.0.1:11434` |
-| Context | `4096` default, higher only when runtime checks permit |
+| Context | `4096` default |
 | Keep alive | `30m` |
-| JSON mode | enabled |
-| Output style | task-specific bounded budgets |
-| Privacy boundary | local-only by default |
+| Privacy stance | Local-first reasoning |
 
-Qwen is used for:
+The Qwen adapter compresses evidence before prompting, requests bounded JSON or bounded narrative where needed, validates expected structure, normalizes flow output fields, and produces deterministic fallback content when the model contract is not satisfied. This is designed for a hackathon setting where the model must feel central and useful without making the system fragile.
 
-- Anomaly explanation cards.
-- Underwriting memo generation.
-- Flow-path and entity-path explanations.
-- Counterfactual summaries.
-- Audit replay narratives.
-- Agentic assistant responses.
+The agent follows the same principle. It is not an unrestricted chatbot bolted onto the UI. It receives active case, active tab, selected anomaly, selected document, selected flow path, selected entity node, open windows, filters, Qwen runtime state, connector provenance, and report state. It can answer questions and propose UI actions, but actions must pass an allowlist and schema validation before they affect the workspace.
 
-Qwen is not treated as a vision/OCR model in this prototype. Deterministic local services generate the raw facts; Qwen explains and prioritizes those facts with citations.
+```mermaid
+flowchart TB
+  Context["Active workspace context"] --> Agent["Agent service"]
+  Agent --> Guardrails["Action allowlist and schema validation"]
+  Guardrails --> Qwen["Local Qwen reasoning"]
+  Guardrails --> Fallback["Deterministic fallback"]
+  Qwen --> Response["Cited answer and safe UI action"]
+  Fallback --> Response
+```
 
-## Data Packs And Provenance
+## Live Sources And Media
 
-Reusable demo and reference facts live under `data/` so the frontend does not own case metrics.
+The prototype uses live public-source connectors where reachable and makes their state visible. Connector output can be fresh, stale, degraded, or unavailable, and the UI is expected to display that state instead of hiding it behind synthetic certainty. RBI, CERT-In, GDELT, Certificate Transparency, RDAP, and source-page media extraction are treated as public intelligence surfaces. They support underwriting context, but they do not replace primary document verification.
 
-| File | Purpose |
+Media previews are resolved by the backend so the frontend does not invent preview content. The source media service extracts and ranks public page images, PDF previews, and video thumbnails, then returns a broader mix to reduce repeated cards. Upload-backed local media is also supported for image, PDF, and video evidence. Runtime preview caches stay under `data/cache/`, and uploaded evidence stays under `data/uploads/`; both are ignored because they are machine-local artifacts rather than source code.
+
+## 3D Fund-Flow And Entity Intelligence
+
+The Financials workspace uses a local demo transaction layer to recreate realistic fund-flow investigation without claiming access to production bank transaction data. The flow engine derives events from dossier risk, financial series, source pressure, and evidence context. It labels generated flow data as demo or dossier-derived, then sends the frontend nodes, links, paths, particles, and selected-path summaries.
+
+Three.js is used directly for the fund-flow and entity graph scenes. The goal is to give evaluators a spatial sense of suspicious movement: borrower, account, branch, source, document, property, and counterparty nodes can be viewed as a live relationship space rather than as static bars. The latest 3D rendering logic preserves user camera movement, supports drag rotation and zoom, suspends auto-spin after manual interaction, and keeps animation loops bounded to avoid blank or unstable canvases.
+
+Maps and 2D charts remain part of the intelligence layer, but they are supporting instruments. The strongest visual story is the combined path from a document anomaly, to source corroboration, to entity relationship, to suspicious financial movement, and finally to an audit-backed underwriting decision.
+
+## Data And Provenance
+
+The project keeps replaceable demo facts in `data/` so the frontend stays data-driven. `data/dossiers.json` defines the underwriting cases, borrowers, financial series, evidence media, and case posture. `data/loan_profiles.json` contains loan-category requirements and thresholds. `data/document_intelligence_cases.json` stores demo documents, anomalies, baselines, source traces, and attention paths. `data/mock_registries.json` provides explicitly local registry-style references. `data/india_fraud_context.json` carries report-derived Indian fraud criticality context. `data/canara_public_benchmark.json` maps public Canara-facing patterns to prototype innovations.
+
+The project also has strict ignored runtime areas. `.env` is local configuration and is not committed. `data/cache/` contains connector and preview cache. `data/uploads/` contains local evidence uploads. `data/runtime/` contains logs, browser profiles, and smoke-test artifacts. Frontend build output, TypeScript build info, Python bytecode, virtual environments, and `node_modules` are excluded as generated artifacts.
+
+| Data file | Role in the prototype |
 | --- | --- |
-| `data/dossiers.json` | Dossier cases, borrowers, financial series, media, risk posture |
-| `data/loan_profiles.json` | Canara-style loan profiles, required document sets, thresholds |
-| `data/document_intelligence_cases.json` | Demo document pages, anomalies, baselines, attention paths |
-| `data/mock_registries.json` | Local demo registry and internal-reference facts, labeled `demo-local` |
-| `data/india_fraud_context.json` | Report-derived India fraud criticality context |
-| `data/canara_public_benchmark.json` | Public Canara-system familiarity and innovation map |
+| `data/dossiers.json` | Underwriting cases, borrower profiles, financial series, media references |
+| `data/loan_profiles.json` | Loan profiles, document requirements, segment thresholds |
+| `data/document_intelligence_cases.json` | Demo document pages, anomaly regions, baselines, attention paths |
+| `data/mock_registries.json` | Local demo registry and internal-reference facts |
+| `data/india_fraud_context.json` | Report-derived India document fraud context |
+| `data/canara_public_benchmark.json` | Public Canara-system familiarity and innovation mapping |
 
-Ignored runtime directories:
+## API Reference
 
-| Path | Why ignored |
-| --- | --- |
-| `data/cache/` | Connector/media cache and public preview cache |
-| `data/uploads/` | Uploaded local evidence |
-| `data/runtime/` | Logs, browser smoke profiles, runtime artifacts |
-| `.env` | Local ports and model/runtime settings |
-
-## API Surface
-
-### Core
+The backend exposes a broad but coherent API surface. `/api/snapshot` and `/ws/live` are the main workspace channels. Connector and media endpoints support public-source refresh, source previews, uploaded evidence, and media catalogs. Qwen endpoints expose runtime status, warmup, case decision briefs, and flow briefs. Document intelligence endpoints handle loan profiles, ingestion, anomaly explanation, counterfactuals, reviewer override, and audit export. Agent endpoints manage context-aware turns and action validation.
 
 | Method | Endpoint | Purpose |
 | --- | --- | --- |
 | `GET` | `/health` | Backend health |
 | `GET` | `/api/snapshot` | Full live workspace snapshot |
 | `WS` | `/ws/live` | Streaming snapshot updates |
-
-### Connectors And Media
-
-| Method | Endpoint | Purpose |
-| --- | --- | --- |
-| `GET` | `/api/connectors/status` | Connector status, freshness, errors |
-| `POST` | `/api/connectors/refresh` | Refresh public connectors |
+| `GET` | `/api/connectors/status` | Connector freshness, provenance, and degraded states |
+| `POST` | `/api/connectors/refresh` | Public connector refresh |
 | `GET` | `/api/media/catalog` | Uploaded media catalog |
-| `POST` | `/api/media/upload` | Upload image/PDF/video evidence |
-| `GET` | `/api/media/uploaded/{filename}` | Serve uploaded evidence |
-| `GET` | `/api/source-media/resolve` | Resolve source-backed media previews |
-| `GET` | `/api/source-media/proxy` | Proxy source media preview |
-| `GET` | `/api/source-media/pdf-preview` | Render or proxy PDF preview |
-| `GET` | `/api/source-media/page-preview` | Render source page preview |
-
-### Qwen And Agent
-
-| Method | Endpoint | Purpose |
-| --- | --- | --- |
-| `GET` | `/api/qwen/runtime` | Runtime telemetry and task profile |
-| `POST` | `/api/qwen/warm` | Warm local model |
-| `POST` | `/api/qwen/decision-brief` | Case decision explanation |
-| `POST` | `/api/qwen/flow-brief` | Fund-flow explanation |
-| `POST` | `/api/agent/turn` | Context-aware assistant turn |
-| `POST` | `/api/agent/action` | Validate or execute allowlisted action |
-
-### Document Intelligence And Audit
-
-| Method | Endpoint | Purpose |
-| --- | --- | --- |
+| `POST` | `/api/media/upload` | Upload image, PDF, or video evidence |
+| `GET` | `/api/source-media/resolve` | Resolve public source media previews |
+| `GET` | `/api/qwen/runtime` | Local model telemetry and optimized profile |
+| `POST` | `/api/qwen/warm` | Keep local model resident |
+| `POST` | `/api/qwen/decision-brief` | Qwen-backed case decision support |
+| `POST` | `/api/qwen/flow-brief` | Qwen-backed fund-flow explanation |
 | `GET` | `/api/document-intel/profiles` | Loan profile metadata |
-| `POST` | `/api/document-intel/ingest` | Start/refresh document workflow |
-| `POST` | `/api/document-intel/explain` | Qwen-backed anomaly explanation |
-| `POST` | `/api/document-intel/counterfactual` | Risk delta explanation |
-| `POST` | `/api/underwriting/override` | Human decision and disagreement log |
+| `POST` | `/api/document-intel/ingest` | Build or refresh document workflow |
+| `POST` | `/api/document-intel/explain` | Explain a selected anomaly |
+| `POST` | `/api/document-intel/counterfactual` | Compute and explain risk deltas |
+| `POST` | `/api/underwriting/override` | Record human decision or disagreement |
 | `GET` | `/api/audit/export` | Compliance-ready audit payload |
 | `GET` | `/api/flow/live` | Focused transaction/fund-flow state |
+| `POST` | `/api/agent/turn` | Context-aware assistant response |
+| `POST` | `/api/agent/action` | Validate or execute allowlisted action |
 
 ## Repository Structure
+
+The repository is organized as a conventional full-stack prototype. Backend services live under `backend/app/services`, data packs live under `data`, documentation lives under `docs`, the React application lives under `frontend`, and root scripts coordinate local development.
 
 ```text
 SuRaksha/
@@ -417,59 +286,58 @@ SuRaksha/
 
 ## Run Locally
 
-### 1. Install dependencies
+The prototype expects Node.js for the React/Vite frontend and Python for the FastAPI backend. Install frontend dependencies from the root with:
 
 ```powershell
 npm run install:frontend
+```
+
+Install backend dependencies with:
+
+```powershell
 python -m pip install -r backend/requirements.txt
 ```
 
-### 2. Configure environment
+Create a local environment file by copying the example configuration:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-The default local ports are:
+The default local setup uses the frontend at `http://127.0.0.1:5173`, the backend at `http://127.0.0.1:8001`, and Ollama at `http://127.0.0.1:11434`. The `.env.example` file is already aligned to those ports, including `VITE_API_BASE=http://127.0.0.1:8001`.
 
-| Service | URL |
-| --- | --- |
-| Frontend | `http://127.0.0.1:5173` |
-| Backend | `http://127.0.0.1:8001` |
-| Ollama | `http://127.0.0.1:11434` |
+Start the backend from the repository root:
 
-### 3. Prepare local Qwen
+```powershell
+npm run dev:backend
+```
 
-Install and start Ollama, then make sure the model is available:
+Start the frontend in another terminal:
+
+```powershell
+npm run dev:frontend
+```
+
+Open the Vite URL, normally `http://127.0.0.1:5173`.
+
+For the local AI core, install and start Ollama, then pull the configured model:
 
 ```powershell
 ollama pull qwen3.5:4b-q4_K_M
 ollama ps
 ```
 
-### 4. Start backend
-
-```powershell
-npm run dev:backend
-```
-
-### 5. Start frontend
-
-```powershell
-npm run dev:frontend
-```
-
-Open `http://127.0.0.1:5173`.
+The UI can still run when Qwen is unavailable, but Qwen-backed explanations, flow briefs, and agent turns will use deterministic fallback behavior.
 
 ## Validation
 
-Run the full local check:
+The main validation command builds the frontend and compiles the backend Python modules:
 
 ```powershell
 npm run check
 ```
 
-Smoke-test the backend:
+Useful backend smoke checks are:
 
 ```powershell
 Invoke-RestMethod http://127.0.0.1:8001/health
@@ -478,88 +346,45 @@ Invoke-RestMethod http://127.0.0.1:8001/api/connectors/status
 Invoke-RestMethod http://127.0.0.1:8001/api/qwen/runtime
 ```
 
-Qwen contract checks:
+For a complete demo pass, the frontend should render without horizontal overflow on desktop and mobile, the Explainable Detection workflow should update when loan profile and anomaly selections change, media previews should not show broken images, 3D scenes should remain nonblank and preserve camera movement, and the agent dock should answer with citations while refusing unsupported actions. The Qwen runtime should report the configured model, effective context, optimized task profile, and fallback state clearly.
 
-- Runtime model should report `qwen3.5:4b-q4_K_M`.
-- Effective context should default to `4096`.
-- Flow brief outputs should normalize `confidence` and `materialityScore` to `0-100`.
-- `citations`, `nextChecks`, and `guardrails` should be arrays.
-- Malformed or unavailable Qwen output should fall back to deterministic text.
+## Demo Narrative
 
-Browser checks:
+The strongest seven-minute demo starts with a Canara branch underwriting context. The presenter selects a high-risk agricultural or MSME case, shows that public sources and local Qwen are active, and explains that the application is built for human decision support rather than automatic rejection.
 
-- No horizontal overflow on desktop or mobile.
-- Explainable Detection renders the four-stage workflow.
-- Source/media previews do not show broken images.
-- 3D flow and entity scenes are nonblank and keep user camera movement.
-- Agent dock answers with citations and refuses unsupported actions.
+The second moment is document ingestion. The evaluator sees the selected loan profile, the required document set, and the streaming processing language. This creates confidence that the system is profile-aware rather than running generic checks.
 
-## Demo Script
+The third moment is the document anomaly itself. The presenter clicks a highlighted region, opens the reasoning panel, shows the observed fact, baseline, confidence, source trace, and attention replay, then asks Qwen for a concise explanation. The key message is that every alert has a reason and an evidence trail.
 
-### Minute 0-1: Canara-style context
+The fourth moment moves from document risk to financial movement. The presenter switches to the Financials surface, selects a suspicious fund path in the 3D scene, and requests a Qwen flow brief. This demonstrates that the prototype can connect document tampering to financial behavior instead of treating them as separate dashboards.
 
-Open Command Center as a branch underwriter. Show the active case, live source review, local Qwen state, and public Canara-system benchmark panel.
-
-### Minute 1-2: Loan-profile ingestion
-
-Switch to Explainable Detection. Select an agricultural land mortgage or MSME working capital profile. Run the demo ingestion flow and show required document mapping.
-
-### Minute 2-4: Explainable anomaly
-
-Click a highlighted document anomaly. Show the document overlay, "Why this?" explanation, confidence, baseline, source trace, and attention replay.
-
-### Minute 4-5: Financial and 3D flow
-
-Switch to Financials. Show the 3D fund-flow tracker, select a high-risk path, and request a Qwen flow explanation.
-
-### Minute 5-6: Counterfactual and human review
-
-Run a counterfactual to show how the risk score changes if an anomaly is removed. Record a human override or branch escalation decision.
-
-### Minute 6-7: Audit export
-
-Open the audit trail, show hash chaining, replay an event, and export the compliance-ready report payload.
-
-## Privacy, Ethics, And Scope
-
-This prototype is defensive underwriting decision support.
-
-- It uses public-source connectors and local demo data packs.
-- It does not claim access to Canara internal systems.
-- It does not scrape private accounts or bypass authentication.
-- It keeps Qwen local by default so sensitive borrower documents do not need to leave the machine.
-- It labels demo-simulated finance-flow data and demo-local registries clearly.
-- It presents AI findings as human-review evidence, not autonomous rejection decisions.
+The final moment is governance. The presenter runs a counterfactual, records a reviewer action or override, opens the audit trail, and exports the compliance payload. The close is simple: SuRaksha Sentinel is not just detecting anomalies; it is making the underwriting decision explainable, reviewable, and auditable.
 
 ## Public Reference Boundary
 
-The prototype was shaped around public-facing references and the hackathon theme, including:
+The prototype was shaped around the HackerEarth Theme 1 statement and public banking/security references. The public Canara references include Digital Security, MSME Cap, public loan/fair-lending material, and cyber-awareness material. Regulator and source-intelligence context includes RBI RSS, CERT-In advisories, GDELT data/API material, Certificate Transparency, and RDAP-style public source checks.
 
-- HackerEarth SuRaksha Cyber Hackathon Theme 1: <https://www.hackerearth.com/community/challenges/hackathon/sukaksha-cyber-hackathon-2/>
-- Canara Digital Security: <https://canarabank.com/pages/DigitalSecurity>
-- Canara MSME Cap: <https://canarabank.bank.in/pages/Canara-MSME-Cap>
-- Canara Loan Policy / fair lending material: <https://canarabank.bank.in/pages/Loan-Policy>
-- RBI RSS: <https://www.rbi.org.in/Scripts/rss.aspx>
-- CERT-In advisories: <https://www.cert-in.org.in/s2cMainServlet?pageid=PUBADVLIST>
-- GDELT data/API overview: <https://www.gdeltproject.org/data.html>
+The important boundary is that these references inspire the workflow and benchmark mapping; they are not evidence of internal Canara integration. Demo finance-flow and registry data remain local, replaceable, and explicitly labeled. Live public connectors keep provenance and freshness visible.
+
+| Reference | URL |
+| --- | --- |
+| Hackathon Theme 1 | <https://www.hackerearth.com/community/challenges/hackathon/sukaksha-cyber-hackathon-2/> |
+| Canara Digital Security | <https://canarabank.com/pages/DigitalSecurity> |
+| Canara MSME Cap | <https://canarabank.bank.in/pages/Canara-MSME-Cap> |
+| Canara Loan Policy / fair lending material | <https://canarabank.bank.in/pages/Loan-Policy> |
+| RBI RSS | <https://www.rbi.org.in/Scripts/rss.aspx> |
+| CERT-In advisories | <https://www.cert-in.org.in/s2cMainServlet?pageid=PUBADVLIST> |
+| GDELT data/API overview | <https://www.gdeltproject.org/data.html> |
+
+## Privacy, Ethics, And Scope
+
+SuRaksha Sentinel is defensive underwriting decision support. It is designed to help a bank reviewer inspect evidence, understand risk, and record accountable decisions. It should not be used for private-account scraping, credential bypassing, unsourced allegations, autonomous borrower rejection, or covert surveillance.
+
+The local-first Qwen setup is central to that boundary. Sensitive borrower documents should not need to leave the machine or a trusted internal environment. Public-source intelligence is used only with visible provenance. Demo data is labeled as demo data. Human review remains the final authority, and reviewer disagreement is treated as useful feedback rather than an error to hide.
 
 ## Troubleshooting
 
-| Symptom | Check |
-| --- | --- |
-| Frontend fetch failures | Confirm `.env` has `VITE_API_BASE=http://127.0.0.1:8001` and backend is running |
-| Backend port conflict | Change `BACKEND_PORT` in `.env`, then update `BACKEND_ORIGIN` and `VITE_API_BASE` |
-| Qwen unavailable | Run `ollama ps`, confirm model tag, then call `POST /api/qwen/warm` |
-| Repeated stale connectors | Open `/api/connectors/status`; degraded sources are intentionally visible |
-| Media previews missing | Refresh connectors and source media; uploaded evidence is under ignored `data/uploads/` |
-| 3D scene blank | Check WebGL support; the app should fall back to enhanced 2D summaries |
-| Build emits Python cache files | They are ignored by `.gitignore`; run `npm run check` normally |
+Most local failures come from port mismatch, a stopped backend, a stale `.env`, or an unavailable Qwen runtime. If the frontend fetches fail, confirm that `VITE_API_BASE` points to `http://127.0.0.1:8001` and that the backend is running. If Qwen features fall back, run `ollama ps`, confirm that `qwen3.5:4b-q4_K_M` is available, then use the warm endpoint or Qwen Ops surface. If media previews look sparse, refresh connectors and remember that source preview caches are intentionally local under `data/cache/`. If a 3D scene is blank, check WebGL support; the UI is expected to fall back gracefully rather than leaving an empty work area.
 
-## Development Notes
-
-- Frontend metrics and visuals should render API state only.
-- New demo facts should go into `data/`, not hardcoded frontend constants.
-- Runtime cache and upload outputs must stay ignored.
-- Keep Qwen prompts compact and cited; deterministic fallback must remain available for every AI-backed feature.
-- Prefer adding focused services under `backend/app/services/` over expanding route handlers directly.
+Generated files are intentionally ignored. Python bytecode, frontend build output, `node_modules`, `.env`, upload folders, connector caches, browser smoke profiles, and runtime logs should not be committed. New case facts should go into the structured data packs under `data/`, while new backend behavior should generally live in a focused service under `backend/app/services/`.
 
