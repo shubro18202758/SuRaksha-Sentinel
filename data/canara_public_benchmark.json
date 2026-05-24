@@ -1,0 +1,87 @@
+{
+  "researchBoundary": "Public Canara and public regulator/security sources only; this prototype does not claim access to internal Canara systems.",
+  "systems": [
+    {
+      "id": "canara-digital-security",
+      "name": "Digital Security and Fraud Monitoring",
+      "publicSource": "Canara Bank Digital Security",
+      "sourceUrl": "https://canarabank.com/pages/DigitalSecurity",
+      "publicCapability": "Public material describes AI/ML transaction monitoring and fraud monitoring support.",
+      "prototypeInnovation": "Evidence-linked real-time anomaly desk that correlates document tamper signals, source intelligence, transaction-flow simulation, and Qwen explanations.",
+      "deliverableFit": "Real-time anomaly detection and intelligent underwriting review support."
+    },
+    {
+      "id": "canara-digital-lending",
+      "name": "Digital Lending Journey",
+      "publicSource": "Canara Bank Digital Lending Solution RFP",
+      "sourceUrl": "https://canarabank.com/media/RFP%2010%20-%20First%203%20pages2352245.pdf",
+      "publicCapability": "Public RFP material emphasizes end-to-end digital lending journeys across retail, MSME, agri, and gold loans.",
+      "prototypeInnovation": "Underwriting cockpit with dossier intake, media previews, source provenance, 3D fund-flow investigation, and decision-pack export.",
+      "deliverableFit": "Faster and more reliable decision-making during underwriting."
+    },
+    {
+      "id": "canara-msme-cap",
+      "name": "MSME Data-Driven Credit Assessment",
+      "publicSource": "Canara MSME Cap",
+      "sourceUrl": "https://canarabank.bank.in/pages/Canara-MSME-Cap",
+      "publicCapability": "Public page describes paperless data-driven creditworthiness assessment for small-value MSME lending.",
+      "prototypeInnovation": "Financial consistency engine and live demo transaction graph identify turnover, GST, ledger rhythm, and suspicious routing inconsistencies.",
+      "deliverableFit": "Financial-statement anomaly detection with traceable evidence."
+    },
+    {
+      "id": "canara-loan-due-diligence",
+      "name": "Loan Due Diligence",
+      "publicSource": "Canara Loan Policy / Fair Lending Practices",
+      "sourceUrl": "https://canarabank.bank.in/pages/Loan-Policy",
+      "publicCapability": "Public loan material emphasizes verification of borrower, guarantor, documents, project details, and credit information.",
+      "prototypeInnovation": "Control checklist binds land records, legal opinions, financial statements, media, public-source corroboration, and reviewer challenge questions.",
+      "deliverableFit": "Tampering and forgery detection across land, legal, and financial evidence."
+    },
+    {
+      "id": "canara-cyber-compliance",
+      "name": "Cyber Awareness and Compliance",
+      "publicSource": "Canara Cyber Security public material",
+      "sourceUrl": "https://canarabank.com/pages/Cyber-Security-Awareness-Month---October-2024",
+      "publicCapability": "Public material supports security awareness and cyber risk governance themes.",
+      "prototypeInnovation": "Connector health, local-only Qwen guardrails, provenance status, and degraded-source visibility make the intelligence layer auditable.",
+      "deliverableFit": "Safe, explainable, source-aware anomaly intelligence."
+    }
+  ],
+  "controlTemplates": [
+    {
+      "id": "land-record-integrity",
+      "label": "Land record integrity",
+      "themeArea": "land records",
+      "reviewQuestion": "Do collateral records, survey identifiers, timestamps, and location claims agree with source evidence?",
+      "sourcePattern": "sale deed|encumbrance|survey|boundary|property|collateral"
+    },
+    {
+      "id": "legal-document-authenticity",
+      "label": "Legal document authenticity",
+      "themeArea": "legal documents",
+      "reviewQuestion": "Do seals, signatures, advocate references, and legal opinions show tamper or template inconsistency?",
+      "sourcePattern": "legal|seal|signature|advocate|opinion|witness"
+    },
+    {
+      "id": "financial-statement-consistency",
+      "label": "Financial statement consistency",
+      "themeArea": "financial statements",
+      "reviewQuestion": "Do statement inflows, GST turnover, account rhythm, and routed fund paths agree with declared business activity?",
+      "sourcePattern": "statement|gst|turnover|salary|transaction|financial|ledger"
+    },
+    {
+      "id": "public-source-corroboration",
+      "label": "Public-source corroboration",
+      "themeArea": "source intelligence",
+      "reviewQuestion": "Are live public-source, advisory, domain, and media signals fresh, cited, and consistent with case facts?",
+      "sourcePattern": "osint|socmint|cybint|techint|domain|advisory|source"
+    },
+    {
+      "id": "qwen-local-decision-support",
+      "label": "Local Qwen decision support",
+      "themeArea": "ai governance",
+      "reviewQuestion": "Did the local Qwen 3.5 4B core cite evidence, stay within local runtime guardrails, and avoid unsupported conclusions?",
+      "sourcePattern": "qwen|model|gpu|decision|review"
+    }
+  ]
+}

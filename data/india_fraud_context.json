@@ -1,0 +1,42 @@
+{
+  "provenance": {
+    "title": "India Document Tampering, Forgery & Financial Fraud Report 2013-2025",
+    "sourceUrl": "c:/Users/sayan/Downloads/India_Document_Fraud_Report_2013_2025(p).md",
+    "retrievedAt": "2026-05-23",
+    "status": "report-derived",
+    "note": "Metrics are used as source-backed prototype context and keep estimate labels where the report marks values as estimated."
+  },
+  "nationalSignals": [
+    { "label": "Cumulative FCF cases 2013-2025", "value": "51.4 lakh", "detail": "Forgery, cheating and fraud cases estimated across the report period." },
+    { "label": "2024 FCF cases", "value": "1,92,382", "detail": "Reported 2024 forgery/cheating/fraud case volume." },
+    { "label": "FCF share of economic offences 2024", "value": "89.7%", "detail": "Fraud-class offences dominate economic-crime volume." },
+    { "label": "Cybercrime cases 2024", "value": "1,00,000+", "detail": "Digital fraud surface is growing alongside document digitisation." },
+    { "label": "Forged PAN/Aadhaar GST tax loss Apr-Oct 2025", "value": "Rs 3,000 Cr+", "detail": "Report cites 489 forged GST registrations using identity-document abuse." }
+  ],
+  "documentCategories": [
+    { "category": "Land Records", "share": 34, "trend": "rising", "examples": "7/12 extract, RoR, Patta, mutation record, sale deed", "risk": "record alteration, fake PoA, impersonation, boundary manipulation" },
+    { "category": "Legal Documents", "share": 18, "trend": "stable", "examples": "affidavit, bail bond, will, PoA, partition deed", "risk": "signature forgery, stamp forgery, backdating, identity misuse" },
+    { "category": "Financial Statements", "share": 22, "trend": "rising", "examples": "bank statements, ITR, balance sheet, loan application", "risk": "income inflation, fabricated totals, forged signatures, valuation fraud" },
+    { "category": "Identity Documents", "share": 14, "trend": "surging", "examples": "Aadhaar, PAN, passport, voter ID", "risk": "digital cloning, photo substitution, AI-generated fakes" },
+    { "category": "Corporate Records", "share": 8, "trend": "moderate", "examples": "MoA, AoA, board resolution, ROC filings", "risk": "fabricated filings, forged authorisations, stale corporate facts" },
+    { "category": "Stamp And Currency", "share": 4, "trend": "niche", "examples": "e-stamp, revenue stamp, notary seal", "risk": "counterfeit stamp, synthetic rubber stamp, missing watermark" }
+  ],
+  "stateRisks": [
+    { "state": "Telangana", "rank": 1, "volume2024": "39,127", "primaryRisk": "identity and financial documents", "dominantManipulation": "digital manipulation" },
+    { "state": "Maharashtra", "rank": 3, "volume2024": "20,083", "primaryRisk": "sale deed and corporate records", "dominantManipulation": "high-value property and corporate fraud" },
+    { "state": "Karnataka", "rank": 5, "volume2024": "16,100 estimate", "primaryRisk": "financial statements and identity documents", "dominantManipulation": "digital manipulation and urban collateral fraud" },
+    { "state": "Uttar Pradesh", "rank": 6, "volume2024": "18,200 estimate", "primaryRisk": "land and revenue documents", "dominantManipulation": "mutation and ownership-chain manipulation" }
+  ],
+  "legalRegime": {
+    "transitionDate": "2024-07-01",
+    "legacy": "IPC forgery, cheating and fraud sections",
+    "current": "BNS 335-341",
+    "modelingUse": "The workflow should store law_regime so pre- and post-transition fraud labels remain auditable."
+  },
+  "criticalFindings": [
+    "Digitisation reduces walk-in corruption but creates a cyber-enabled attack surface for document manipulation.",
+    "Mutation tampering may surface years after collateral acceptance, which makes real-time underwriting review material.",
+    "Identity-document cloning and forged GST/PAN linkages amplify financial-statement fraud risk.",
+    "Metro cases are fewer in count but carry high-value exposure, while rural land-record disputes create long-tail NPA risk."
+  ]
+}

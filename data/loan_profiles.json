@@ -1,0 +1,122 @@
+[
+  {
+    "id": "agri-land-mortgage",
+    "label": "Agricultural Land Mortgage",
+    "roleContext": "Canara rural branch underwriter",
+    "branchContext": "Hubli Rural Credit Desk",
+    "segment": "Agricultural lending",
+    "defaultCasePattern": "land collateral with 7/12, patta, mutation, revenue stamp and income proof",
+    "thresholds": { "approveBelow": 30, "holdFrom": 45, "escalateFrom": 70 },
+    "riskWeights": [
+      { "id": "documentAuthenticity", "label": "Document Authenticity", "weight": 30 },
+      { "id": "dataVeracity", "label": "Data Veracity", "weight": 25 },
+      { "id": "financialIntegrity", "label": "Financial Integrity", "weight": 25 },
+      { "id": "sourceTrustworthiness", "label": "Source Trustworthiness", "weight": 20 }
+    ],
+    "requiredDocuments": [
+      "7/12 extract or state RoR",
+      "Mutation record and ownership chain",
+      "Patta/Khasra-Khatauni or local land register extract",
+      "Revenue stamp and registrar receipt",
+      "Crop income or account statement"
+    ],
+    "checks": [
+      "Survey number format and edit-region consistency",
+      "Area mismatch against demo Bhoomi-style polygon reference",
+      "Revenue stamp micro-text and watermark presence",
+      "Owner-chain continuity across mutation entries",
+      "Income proof plausibility against crop and district baseline"
+    ],
+    "qwenFocus": "Explain land-record tampering in branch-underwriter language and cite registrar-style source traces."
+  },
+  {
+    "id": "msme-working-capital",
+    "label": "MSME Working Capital",
+    "roleContext": "Canara SME credit analyst",
+    "branchContext": "SME Credit Hub",
+    "segment": "MSME credit decisioning",
+    "defaultCasePattern": "bank statements, GST summary, invoices, borrower ledger and working-capital projection",
+    "thresholds": { "approveBelow": 35, "holdFrom": 50, "escalateFrom": 72 },
+    "riskWeights": [
+      { "id": "documentAuthenticity", "label": "Document Authenticity", "weight": 30 },
+      { "id": "dataVeracity", "label": "Data Veracity", "weight": 25 },
+      { "id": "financialIntegrity", "label": "Financial Integrity", "weight": 25 },
+      { "id": "sourceTrustworthiness", "label": "Source Trustworthiness", "weight": 20 }
+    ],
+    "requiredDocuments": [
+      "12-month bank statement",
+      "GST return summary",
+      "Trade invoices and receivables ageing",
+      "Borrower KYC and PAN/GST linkage",
+      "Working-capital assessment note"
+    ],
+    "checks": [
+      "Revenue spike outlier against sector baseline",
+      "Circular funds and related-party counterparty overlap",
+      "Statement total arithmetic and font/template consistency",
+      "GST turnover mismatch with bank inflow rhythm",
+      "Invoice attachment duplication and metadata reuse"
+    ],
+    "qwenFocus": "Explain financial manipulation, circular transaction risk and underwriting materiality with evidence IDs."
+  },
+  {
+    "id": "retail-home-loan",
+    "label": "Retail Home Loan",
+    "roleContext": "Canara retail assets underwriter",
+    "branchContext": "Retail Assets Desk",
+    "segment": "Mortgage underwriting",
+    "defaultCasePattern": "sale deed, encumbrance certificate, income proof, property visit media and KYC",
+    "thresholds": { "approveBelow": 32, "holdFrom": 48, "escalateFrom": 68 },
+    "riskWeights": [
+      { "id": "documentAuthenticity", "label": "Document Authenticity", "weight": 30 },
+      { "id": "dataVeracity", "label": "Data Veracity", "weight": 25 },
+      { "id": "financialIntegrity", "label": "Financial Integrity", "weight": 25 },
+      { "id": "sourceTrustworthiness", "label": "Source Trustworthiness", "weight": 20 }
+    ],
+    "requiredDocuments": [
+      "Sale deed",
+      "Encumbrance certificate",
+      "Approved property plan or tax receipt",
+      "Income proof and bank statement",
+      "Property inspection media"
+    ],
+    "checks": [
+      "Sale deed execution date and edit timestamp consistency",
+      "Encumbrance text match with declared property",
+      "Seller/witness signature baseline comparison",
+      "Property media geotag and scene continuity",
+      "Income proof continuity and employer/source verification"
+    ],
+    "qwenFocus": "Explain sale deed, encumbrance and retail mortgage controls with plain decision support."
+  },
+  {
+    "id": "corporate-credit",
+    "label": "Corporate Credit",
+    "roleContext": "Canara corporate credit risk reviewer",
+    "branchContext": "Commercial Banking Desk",
+    "segment": "Corporate underwriting",
+    "defaultCasePattern": "audited statements, board resolution, ROC filings, collateral schedule and guarantor papers",
+    "thresholds": { "approveBelow": 36, "holdFrom": 52, "escalateFrom": 75 },
+    "riskWeights": [
+      { "id": "documentAuthenticity", "label": "Document Authenticity", "weight": 30 },
+      { "id": "dataVeracity", "label": "Data Veracity", "weight": 25 },
+      { "id": "financialIntegrity", "label": "Financial Integrity", "weight": 25 },
+      { "id": "sourceTrustworthiness", "label": "Source Trustworthiness", "weight": 20 }
+    ],
+    "requiredDocuments": [
+      "Audited balance sheet and P&L",
+      "Board resolution and guarantor consent",
+      "ROC filing extract",
+      "Collateral valuation report",
+      "Banking conduct statement"
+    ],
+    "checks": [
+      "Board resolution signature and seal consistency",
+      "ROC field mismatch against submitted corporate records",
+      "Balance-sheet arithmetic and ratio outlier detection",
+      "Guarantor consent and KYC relationship checks",
+      "Valuation report issuer template and timestamp consistency"
+    ],
+    "qwenFocus": "Explain corporate-document and financial-statement anomalies with credit committee ready citations."
+  }
+]

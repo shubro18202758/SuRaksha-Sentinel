@@ -1,0 +1,33 @@
+{
+  "mode": "demo-local",
+  "boundary": "Local prototype references only. No live Canara internal system or government registry access is claimed.",
+  "registries": [
+    {
+      "id": "demo-bhoomi-karnataka",
+      "label": "Karnataka Bhoomi-style land reference",
+      "sourceType": "mock-government-registry",
+      "records": [
+        { "propertyId": "BHOOMI-HBL-142-1A", "surveyNumber": "142/1A", "areaAcres": 1.8, "ownerChain": "Shivappa Gowda > Family partition 2021 > Shivappa Gowda", "classification": "dry agricultural land" },
+        { "propertyId": "BHOOMI-BLR-88-2C", "surveyNumber": "88/2C", "areaAcres": 0.62, "ownerChain": "Aarav Infrastructure LLP", "classification": "converted commercial plot" }
+      ]
+    },
+    {
+      "id": "demo-gst-msme-baseline",
+      "label": "MSME GST and sector baseline reference",
+      "sourceType": "mock-credit-bureau",
+      "records": [
+        { "segment": "food processing", "region": "Maharashtra", "monthlyDepositMedianLakh": 18.5, "sigmaLimit": 3.0, "ebitdaP99": 42 },
+        { "segment": "infrastructure contractor", "region": "Karnataka", "monthlyDepositMedianLakh": 27.0, "sigmaLimit": 3.2, "ebitdaP99": 38 }
+      ]
+    },
+    {
+      "id": "demo-legal-specimen-vault",
+      "label": "Legal signature and stamp specimen vault",
+      "sourceType": "mock-canara-reference",
+      "records": [
+        { "person": "Seller specimen set", "referenceCount": 5, "strokeVelocityBand": "0.44-0.62", "pressureBand": "medium" },
+        { "person": "Advocate seal specimen", "referenceCount": 3, "expectedInkSpread": "continuous circular edge" }
+      ]
+    }
+  ]
+}

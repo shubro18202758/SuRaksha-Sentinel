@@ -1,0 +1,12 @@
+{
+  "name": "suraksha-sentinel",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Real-time anomaly intelligence prototype for Canara Bank SuRaksha Cyber Hackathon 2.0.",
+  "scripts": {
+    "install:frontend": "npm --prefix frontend install",
+    "dev:frontend": "node scripts/start-frontend.mjs",
+    "dev:backend": "python -m backend.app.dev_server",
+    "check": "npm --prefix frontend run build && python -m compileall backend"
+  }
+}

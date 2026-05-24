@@ -1,0 +1,185 @@
+{
+  "portfolio": {
+    "programName": "SuRaksha Sentinel",
+    "theme": "Theme 1 - Real-time anomaly detection",
+    "institution": "Canara-inspired underwriting intelligence desk",
+    "noticeTicker": [
+      "Real-time document, statement, entity and public-source anomaly signals are evidence-linked before review.",
+      "Qwen runs locally for decision support; borrower data must not leave this workstation.",
+      "Live connectors are labeled with freshness, latency and degraded-source status."
+    ],
+    "regions": [
+      { "name": "Bengaluru Urban", "risk": 82, "branchLoad": 18, "lat": 12.9716, "lng": 77.5946 },
+      { "name": "Mumbai Metro", "risk": 67, "branchLoad": 24, "lat": 19.076, "lng": 72.8777 },
+      { "name": "Lucknow Zone", "risk": 48, "branchLoad": 11, "lat": 26.8467, "lng": 80.9462 },
+      { "name": "Hyderabad Circle", "risk": 34, "branchLoad": 9, "lat": 17.385, "lng": 78.4867 }
+    ]
+  },
+  "cases": [
+    {
+      "id": "SRK-HL-24017",
+      "applicant": "Aarav Infrastructure LLP",
+      "loanType": "Secured MSME term loan",
+      "location": "Bengaluru Urban, Karnataka",
+      "lat": 12.9716,
+      "lng": 77.5946,
+      "baseRisk": 78,
+      "status": "Escalate",
+      "stage": "Collateral verification",
+      "owner": "Fraud Ops",
+      "loanAmount": "INR 8.4 crore",
+      "branch": "Bengaluru SME Credit Hub",
+      "anomalies": [
+        "Sale deed edit timestamp is later than declared execution date",
+        "Survey number conflicts with extracted encumbrance certificate text",
+        "Two public advisories mention lookalike domains targeting the borrower segment"
+      ],
+      "media": [
+        { "id": "sale-deed", "kind": "document", "title": "Sale Deed OCR", "detector": "OCR drift + visual ELA" },
+        { "id": "encumbrance", "kind": "image", "title": "Encumbrance Extract", "detector": "metadata and timestamp coherence" },
+        { "id": "site-video", "kind": "video", "title": "Site Walkthrough", "detector": "frame continuity and scene stability" }
+      ],
+      "financialSeries": [
+        { "month": "Jan", "inflow": 48, "outflow": 34, "anomaly": 9 },
+        { "month": "Feb", "inflow": 52, "outflow": 39, "anomaly": 13 },
+        { "month": "Mar", "inflow": 47, "outflow": 43, "anomaly": 18 },
+        { "month": "Apr", "inflow": 63, "outflow": 51, "anomaly": 24 },
+        { "month": "May", "inflow": 59, "outflow": 55, "anomaly": 31 },
+        { "month": "Jun", "inflow": 71, "outflow": 62, "anomaly": 34 }
+      ]
+    },
+    {
+      "id": "SRK-HL-24022",
+      "applicant": "Meera Foods Private Limited",
+      "loanType": "Working capital enhancement",
+      "location": "Mumbai, Maharashtra",
+      "lat": 19.076,
+      "lng": 72.8777,
+      "baseRisk": 64,
+      "status": "Hold",
+      "stage": "Statement analysis",
+      "owner": "Credit Intelligence",
+      "loanAmount": "INR 3.2 crore",
+      "branch": "Mumbai Commercial Banking Desk",
+      "anomalies": [
+        "Salary-credit style transactions repeat with identical references",
+        "GST turnover claim exceeds normalized banking inflow by 31 percent",
+        "Director address overlaps with two previously reviewed high-risk entities"
+      ],
+      "media": [
+        { "id": "bank-statement", "kind": "document", "title": "Bank Statement", "detector": "statement tamper and ledger rhythm" },
+        { "id": "gst-summary", "kind": "image", "title": "GST Summary", "detector": "issuer template consistency" },
+        { "id": "warehouse-clip", "kind": "video", "title": "Warehouse Clip", "detector": "frame continuity and scene stability" }
+      ],
+      "financialSeries": [
+        { "month": "Jan", "inflow": 39, "outflow": 33, "anomaly": 7 },
+        { "month": "Feb", "inflow": 43, "outflow": 37, "anomaly": 11 },
+        { "month": "Mar", "inflow": 51, "outflow": 42, "anomaly": 15 },
+        { "month": "Apr", "inflow": 58, "outflow": 48, "anomaly": 19 },
+        { "month": "May", "inflow": 61, "outflow": 59, "anomaly": 29 },
+        { "month": "Jun", "inflow": 66, "outflow": 64, "anomaly": 32 }
+      ]
+    },
+    {
+      "id": "SRK-GL-24031",
+      "applicant": "Rudra Traders",
+      "loanType": "Property-backed overdraft",
+      "location": "Lucknow, Uttar Pradesh",
+      "lat": 26.8467,
+      "lng": 80.9462,
+      "baseRisk": 42,
+      "status": "Review",
+      "stage": "Legal opinion review",
+      "owner": "Legal Risk",
+      "loanAmount": "INR 1.8 crore",
+      "branch": "Lucknow Retail Assets",
+      "anomalies": [
+        "Advocate seal region shows compression inconsistency",
+        "Witness name appears in an unrelated disputed-property notice",
+        "Boundary description has low semantic match with geocoded property locality"
+      ],
+      "media": [
+        { "id": "legal-opinion", "kind": "document", "title": "Legal Opinion", "detector": "seal/signature region comparison" },
+        { "id": "stamp-region", "kind": "image", "title": "Stamp Region", "detector": "pixel-level compression consistency" },
+        { "id": "property-walkthrough", "kind": "video", "title": "Property Walkthrough", "detector": "scene stability and geotag coherence" }
+      ],
+      "financialSeries": [
+        { "month": "Jan", "inflow": 31, "outflow": 24, "anomaly": 5 },
+        { "month": "Feb", "inflow": 34, "outflow": 27, "anomaly": 9 },
+        { "month": "Mar", "inflow": 36, "outflow": 31, "anomaly": 13 },
+        { "month": "Apr", "inflow": 41, "outflow": 37, "anomaly": 14 },
+        { "month": "May", "inflow": 44, "outflow": 42, "anomaly": 17 },
+        { "month": "Jun", "inflow": 49, "outflow": 47, "anomaly": 21 }
+      ]
+    },
+    {
+      "id": "SRK-RL-24044",
+      "applicant": "Nisha Rao",
+      "loanType": "Retail home loan",
+      "location": "Hyderabad, Telangana",
+      "lat": 17.385,
+      "lng": 78.4867,
+      "baseRisk": 29,
+      "status": "Proceed",
+      "stage": "Final underwriting",
+      "owner": "Branch Underwriting",
+      "loanAmount": "INR 78 lakh",
+      "branch": "Hyderabad Home Loan Desk",
+      "anomalies": [
+        "Minor PAN name spacing mismatch resolved by alias normalization",
+        "All income and account continuity checks are within expected range",
+        "No current adverse source signal linked to applicant or property"
+      ],
+      "media": [
+        { "id": "application-form", "kind": "document", "title": "Application Form", "detector": "field consistency and OCR confidence" },
+        { "id": "income-proof", "kind": "image", "title": "Income Proof", "detector": "issuer template consistency" },
+        { "id": "flat-video", "kind": "video", "title": "Flat Video", "detector": "scene stability and geotag coherence" }
+      ],
+      "financialSeries": [
+        { "month": "Jan", "inflow": 22, "outflow": 17, "anomaly": 4 },
+        { "month": "Feb", "inflow": 24, "outflow": 18, "anomaly": 5 },
+        { "month": "Mar", "inflow": 25, "outflow": 19, "anomaly": 6 },
+        { "month": "Apr", "inflow": 26, "outflow": 20, "anomaly": 8 },
+        { "month": "May", "inflow": 27, "outflow": 22, "anomaly": 9 },
+        { "month": "Jun", "inflow": 28, "outflow": 23, "anomaly": 7 }
+      ]
+    },
+    {
+      "id": "SRK-AG-24051",
+      "applicant": "Shivappa Gowda",
+      "loanType": "Agricultural land mortgage",
+      "location": "Hubli, Karnataka",
+      "lat": 15.3647,
+      "lng": 75.124,
+      "baseRisk": 81,
+      "status": "Escalate",
+      "stage": "Land collateral verification",
+      "owner": "Rural Credit Risk",
+      "loanAmount": "INR 42 lakh",
+      "branch": "Hubli Rural Credit Desk",
+      "anomalies": [
+        "7/12 extract survey number appears altered from 142/1A to 142/1B",
+        "Declared 2.4 acre land area conflicts with demo Bhoomi-style 1.8 acre reference",
+        "Revenue stamp border lacks expected micro-text pattern"
+      ],
+      "media": [
+        { "id": "agri-712", "kind": "document", "title": "7/12 Extract", "detector": "survey-field ELA + OCR consistency" },
+        { "id": "agri-mutation", "kind": "image", "title": "Mutation Chain", "detector": "owner-chain and registry consistency" },
+        { "id": "field-visit", "kind": "video", "title": "Field Visit Clip", "detector": "geotag and scene-continuity review" }
+      ],
+      "financialSeries": [
+        { "month": "Jan", "inflow": 12, "outflow": 7, "anomaly": 5 },
+        { "month": "Feb", "inflow": 13, "outflow": 8, "anomaly": 6 },
+        { "month": "Mar", "inflow": 15, "outflow": 9, "anomaly": 9 },
+        { "month": "Apr", "inflow": 18, "outflow": 10, "anomaly": 14 },
+        { "month": "May", "inflow": 21, "outflow": 12, "anomaly": 19 },
+        { "month": "Jun", "inflow": 28, "outflow": 14, "anomaly": 28 }
+      ]
+    }
+  ],
+  "connectorQueries": {
+    "gdelt": "\"Canara Bank\" OR \"loan fraud\" OR \"document forgery\" OR \"land record fraud\" OR \"bank statement tampering\"",
+    "certificateTransparency": "%.canarabank.bank.in",
+    "rdap": "canarabank.bank.in"
+  }
+}

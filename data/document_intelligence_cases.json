@@ -1,0 +1,350 @@
+{
+  "mode": "demo-local",
+  "dataBoundary": "Reusable demo-underwriting facts. Visual/OCR/financial findings are deterministic prototype detector outputs and are explained by local Qwen or fallback narratives.",
+  "cases": [
+    {
+      "caseId": "SRK-AG-24051",
+      "profileId": "agri-land-mortgage",
+      "scenario": "Tampered Karnataka 7/12 land record detected before agricultural loan disbursement.",
+      "documents": [
+        { "id": "doc-ag-712", "title": "7/12 Extract - Tampered Upload", "kind": "land-record", "category": "Land Records", "pageCount": 1, "status": "flagged", "sourceType": "uploaded-demo" },
+        { "id": "doc-ag-mutation", "title": "Mutation Register Chain", "kind": "land-record", "category": "Land Records", "pageCount": 2, "status": "review", "sourceType": "demo-registry" },
+        { "id": "doc-ag-income", "title": "Crop Income Statement", "kind": "financial", "category": "Financial Statements", "pageCount": 1, "status": "review", "sourceType": "borrower-upload" }
+      ],
+      "ingestionSteps": [
+        "Classifying uploaded 7/12 extract and mutation chain.",
+        "Extracting survey number, owner chain, area and stamp fields.",
+        "Cross-referencing with demo Karnataka Bhoomi-style land reference.",
+        "Running pixel-level edit, stamp watermark and OCR consistency checks.",
+        "Packing cited anomaly evidence for local Qwen explanation."
+      ],
+      "anomalies": [
+        {
+          "id": "ANM-AG-712-SURVEY",
+          "stream": "visualIntegrity",
+          "documentId": "doc-ag-712",
+          "page": 1,
+          "bbox": { "x": 58, "y": 26, "w": 17, "h": 8 },
+          "severity": "critical",
+          "confidence": 91,
+          "title": "Inserted survey-number digit",
+          "why": "The digit group in survey number 142/1B has scan noise and edge sharpness inconsistent with the surrounding revenue-record text.",
+          "observed": "Digit 4 and suffix B are 2.7x sharper than neighboring glyphs and sit 3 pixels above the baseline.",
+          "baseline": "Demo Bhoomi-style reference expects survey number 142/1A for property BHOOMI-HBL-142-1A.",
+          "microViz": { "type": "spectrum", "label": "Pixel inconsistency", "value": 91, "referenceValue": 24, "unit": "%" },
+          "sourceTrace": [
+            { "id": "REG-BHOOMI-142", "label": "Bhoomi-style survey reference", "source": "demo-bhoomi-karnataka", "status": "demo-local" }
+          ],
+          "evidenceIds": ["EV-SRK-AG-24051-712", "EV-SRK-AG-24051-BHOOMI"],
+          "attentionPath": [
+            { "x": 52, "y": 22, "w": 24, "h": 13, "durationMs": 620, "label": "Survey field" },
+            { "x": 58, "y": 26, "w": 17, "h": 8, "durationMs": 820, "label": "Inserted digits" },
+            { "x": 44, "y": 58, "w": 28, "h": 12, "durationMs": 540, "label": "Area field corroboration" }
+          ],
+          "counterfactualRiskDelta": -27
+        },
+        {
+          "id": "ANM-AG-712-AREA",
+          "stream": "dataConsistency",
+          "documentId": "doc-ag-712",
+          "page": 1,
+          "bbox": { "x": 44, "y": 58, "w": 28, "h": 12 },
+          "severity": "critical",
+          "confidence": 88,
+          "title": "Land area mismatch",
+          "why": "The uploaded record says 2.4 acres, while the demo registry polygon reference stores 1.8 acres for the same owner-chain.",
+          "observed": "Uploaded area: 2.4 acres; registry reference: 1.8 acres; variance: 33.3%.",
+          "baseline": "Area variance above 10% requires physical registrar verification in this prototype profile.",
+          "microViz": { "type": "delta", "label": "Area variance", "value": 33, "referenceValue": 10, "unit": "%" },
+          "sourceTrace": [
+            { "id": "REG-BHOOMI-AREA", "label": "Demo land-area polygon", "source": "demo-bhoomi-karnataka", "status": "demo-local" }
+          ],
+          "evidenceIds": ["EV-SRK-AG-24051-AREA"],
+          "attentionPath": [
+            { "x": 38, "y": 54, "w": 38, "h": 18, "durationMs": 760, "label": "Area table" },
+            { "x": 16, "y": 38, "w": 32, "h": 16, "durationMs": 500, "label": "Owner chain" }
+          ],
+          "counterfactualRiskDelta": -19
+        },
+        {
+          "id": "ANM-AG-STAMP-MICROTEXT",
+          "stream": "visualIntegrity",
+          "documentId": "doc-ag-712",
+          "page": 1,
+          "bbox": { "x": 73, "y": 71, "w": 13, "h": 14 },
+          "severity": "high",
+          "confidence": 82,
+          "title": "Revenue stamp micro-text missing",
+          "why": "Stamp border lacks the micro-printing texture expected in the reference stamp family and appears copied from a lower-resolution scan.",
+          "observed": "Stamp watermark band has flat luminance and no alternating micro-line pattern.",
+          "baseline": "Reference stamp specimen contains repeating micro-text around the seal boundary.",
+          "microViz": { "type": "spectrum", "label": "Micro-text match", "value": 18, "referenceValue": 76, "unit": "%" },
+          "sourceTrace": [
+            { "id": "REG-STAMP-SPECIMEN", "label": "Demo stamp specimen", "source": "demo-legal-specimen-vault", "status": "demo-local" }
+          ],
+          "evidenceIds": ["EV-SRK-AG-24051-STAMP"],
+          "attentionPath": [
+            { "x": 70, "y": 68, "w": 18, "h": 19, "durationMs": 900, "label": "Stamp boundary" },
+            { "x": 76, "y": 74, "w": 7, "h": 7, "durationMs": 500, "label": "Watermark center" }
+          ],
+          "counterfactualRiskDelta": -12
+        }
+      ],
+      "riskDecomposition": [
+        { "id": "documentAuthenticity", "label": "Document Authenticity", "weight": 30, "score": 86, "drivers": ["Inserted survey-number digit", "Revenue stamp micro-text missing"], "anomalyIds": ["ANM-AG-712-SURVEY", "ANM-AG-STAMP-MICROTEXT"] },
+        { "id": "dataVeracity", "label": "Data Veracity", "weight": 25, "score": 81, "drivers": ["Land area mismatch", "Owner-chain corroboration pending"], "anomalyIds": ["ANM-AG-712-AREA"] },
+        { "id": "financialIntegrity", "label": "Financial Integrity", "weight": 25, "score": 54, "drivers": ["Crop income within review range"], "anomalyIds": [] },
+        { "id": "sourceTrustworthiness", "label": "Source Trustworthiness", "weight": 20, "score": 73, "drivers": ["Registry corroboration is demo-local and needs field verification"], "anomalyIds": ["ANM-AG-712-AREA"] }
+      ],
+      "memo": "This agricultural land mortgage file shows probable tampering in the survey-number and area fields of the 7/12 extract, with missing stamp micro-text. Recommended action: escalate to branch manager and district registrar for physical verification before disbursement.",
+      "nextActions": [
+        "Freeze disbursement until original land record is physically verified.",
+        "Ask branch officer to collect registrar-certified extract for survey 142/1A.",
+        "Record human override only with supporting field-verification note."
+      ]
+    },
+    {
+      "caseId": "SRK-HL-24017",
+      "profileId": "msme-working-capital",
+      "scenario": "Secured MSME term loan with collateral and statement anomalies.",
+      "documents": [
+        { "id": "doc-hl-sale-deed", "title": "Sale Deed OCR", "kind": "legal-document", "category": "Legal Documents", "pageCount": 3, "status": "flagged", "sourceType": "borrower-upload" },
+        { "id": "doc-hl-encumbrance", "title": "Encumbrance Extract", "kind": "land-record", "category": "Land Records", "pageCount": 1, "status": "review", "sourceType": "borrower-upload" },
+        { "id": "doc-hl-statement", "title": "MSME Statement Extract", "kind": "financial", "category": "Financial Statements", "pageCount": 12, "status": "flagged", "sourceType": "borrower-upload" }
+      ],
+      "ingestionSteps": [
+        "Classifying sale deed, encumbrance extract and statement pages.",
+        "Extracting borrower, survey, date and account-flow entities.",
+        "Comparing statement rhythm with demo MSME sector baseline.",
+        "Checking collateral text against extracted encumbrance fields.",
+        "Preparing Qwen-citable underwriting memo."
+      ],
+      "anomalies": [
+        {
+          "id": "ANM-HL-DEED-DATE",
+          "stream": "visualIntegrity",
+          "documentId": "doc-hl-sale-deed",
+          "page": 2,
+          "bbox": { "x": 61, "y": 18, "w": 18, "h": 9 },
+          "severity": "high",
+          "confidence": 84,
+          "title": "Execution-date edit signature",
+          "why": "The execution date region has a newer edit timestamp and a mismatched raster-noise field compared with the rest of the deed.",
+          "observed": "Date field compression artifacts are 41% denser than the surrounding clause text.",
+          "baseline": "Sale deed date should match scan noise and metadata of the page body.",
+          "microViz": { "type": "spectrum", "label": "Raster drift", "value": 84, "referenceValue": 22, "unit": "%" },
+          "sourceTrace": [
+            { "id": "DOC-META-HL-DEED", "label": "Uploaded sale deed metadata", "source": "borrower-upload", "status": "dossier-derived" }
+          ],
+          "evidenceIds": ["EV-SRK-HL-24017-DEED"],
+          "attentionPath": [
+            { "x": 58, "y": 15, "w": 24, "h": 15, "durationMs": 720, "label": "Execution date" },
+            { "x": 16, "y": 44, "w": 62, "h": 18, "durationMs": 620, "label": "Clause body comparison" }
+          ],
+          "counterfactualRiskDelta": -15
+        },
+        {
+          "id": "ANM-HL-SURVEY-CONFLICT",
+          "stream": "dataConsistency",
+          "documentId": "doc-hl-encumbrance",
+          "page": 1,
+          "bbox": { "x": 24, "y": 42, "w": 29, "h": 10 },
+          "severity": "critical",
+          "confidence": 87,
+          "title": "Survey number conflicts with encumbrance text",
+          "why": "The encumbrance extract and sale deed resolve to different survey identifiers for the same collateral narrative.",
+          "observed": "Sale deed mentions 88/2C; encumbrance text resolves as 88/2G after OCR correction.",
+          "baseline": "Collateral survey identifier must remain identical across sale deed, EC and valuation report.",
+          "microViz": { "type": "delta", "label": "Identifier mismatch", "value": 87, "referenceValue": 0, "unit": "%" },
+          "sourceTrace": [
+            { "id": "REG-BHOOMI-BLR-88", "label": "Demo collateral reference", "source": "demo-bhoomi-karnataka", "status": "demo-local" }
+          ],
+          "evidenceIds": ["EV-SRK-HL-24017-EC"],
+          "attentionPath": [
+            { "x": 19, "y": 38, "w": 39, "h": 16, "durationMs": 680, "label": "EC survey field" },
+            { "x": 55, "y": 18, "w": 25, "h": 12, "durationMs": 580, "label": "Sale deed survey field" }
+          ],
+          "counterfactualRiskDelta": -18
+        },
+        {
+          "id": "ANM-HL-FLOW-SPIKE",
+          "stream": "financialAnomaly",
+          "documentId": "doc-hl-statement",
+          "page": 8,
+          "bbox": { "x": 38, "y": 61, "w": 42, "h": 12 },
+          "severity": "critical",
+          "confidence": 90,
+          "title": "Unexplained working-capital inflow spike",
+          "why": "The statement shows a Month 9 deposit pattern outside the demo sector baseline and overlaps with high-risk counterparty flow paths.",
+          "observed": "Inflow spike is 4.2 standard deviations above the infrastructure-contractor baseline.",
+          "baseline": "Demo MSME baseline expects stable monthly inflow with sigma limit 3.2.",
+          "microViz": { "type": "sigma", "label": "Deposit outlier", "value": 4.2, "referenceValue": 3.2, "unit": "sigma" },
+          "sourceTrace": [
+            { "id": "REG-GST-INFRA", "label": "Demo GST/MSME baseline", "source": "demo-gst-msme-baseline", "status": "demo-local" }
+          ],
+          "evidenceIds": ["EV-SRK-HL-24017-FIN-JUN", "PATH-SRK-HL-24017-1"],
+          "attentionPath": [
+            { "x": 30, "y": 56, "w": 56, "h": 18, "durationMs": 760, "label": "Statement spike row" },
+            { "x": 12, "y": 76, "w": 70, "h": 10, "durationMs": 520, "label": "Running balance check" }
+          ],
+          "counterfactualRiskDelta": -21
+        }
+      ],
+      "riskDecomposition": [
+        { "id": "documentAuthenticity", "label": "Document Authenticity", "weight": 30, "score": 80, "drivers": ["Execution-date edit signature"], "anomalyIds": ["ANM-HL-DEED-DATE"] },
+        { "id": "dataVeracity", "label": "Data Veracity", "weight": 25, "score": 82, "drivers": ["Survey number conflict"], "anomalyIds": ["ANM-HL-SURVEY-CONFLICT"] },
+        { "id": "financialIntegrity", "label": "Financial Integrity", "weight": 25, "score": 86, "drivers": ["Unexplained inflow spike"], "anomalyIds": ["ANM-HL-FLOW-SPIKE"] },
+        { "id": "sourceTrustworthiness", "label": "Source Trustworthiness", "weight": 20, "score": 69, "drivers": ["Source corroboration has stale public-source pressure"], "anomalyIds": ["ANM-HL-SURVEY-CONFLICT"] }
+      ],
+      "memo": "This secured MSME file combines collateral inconsistency, sale deed edit evidence and abnormal statement inflow. Recommended action: hold working-capital decision and escalate collateral plus fund-flow review.",
+      "nextActions": [
+        "Request original sale deed and registrar-certified EC.",
+        "Ask borrower to explain the abnormal statement inflow with invoices and GST trail.",
+        "Use 3D fund-flow view to review counterparties before credit sanction."
+      ]
+    },
+    {
+      "caseId": "SRK-HL-24022",
+      "profileId": "msme-working-capital",
+      "scenario": "MSME working-capital enhancement with suspected circular deposits.",
+      "documents": [
+        { "id": "doc-msme-statement", "title": "12-Month Bank Statement", "kind": "financial", "category": "Financial Statements", "pageCount": 12, "status": "flagged", "sourceType": "borrower-upload" },
+        { "id": "doc-msme-gst", "title": "GST Summary", "kind": "financial", "category": "Financial Statements", "pageCount": 2, "status": "review", "sourceType": "borrower-upload" }
+      ],
+      "ingestionSteps": [
+        "Classifying bank statement and GST summary.",
+        "Extracting monthly deposits, parties and GST turnover.",
+        "Running circular-flow and related-party overlap checks.",
+        "Preparing explainable financial anomaly cards."
+      ],
+      "anomalies": [
+        {
+          "id": "ANM-MSME-CIRCULAR-DEPOSIT",
+          "stream": "financialAnomaly",
+          "documentId": "doc-msme-statement",
+          "page": 9,
+          "bbox": { "x": 31, "y": 49, "w": 48, "h": 11 },
+          "severity": "critical",
+          "confidence": 91,
+          "title": "Circular deposit pattern",
+          "why": "A high-value deposit returns through a supplier account sharing address and timing overlap with the applicant.",
+          "observed": "Deposit spike is 6.3 sigma above the food-processing baseline and reverses within 48 hours.",
+          "baseline": "Expected monthly deposits remain within 3 sigma for this segment and region.",
+          "microViz": { "type": "sigma", "label": "Deposit spike", "value": 6.3, "referenceValue": 3.0, "unit": "sigma" },
+          "sourceTrace": [
+            { "id": "REG-GST-FOOD", "label": "Demo GST/MSME baseline", "source": "demo-gst-msme-baseline", "status": "demo-local" }
+          ],
+          "evidenceIds": ["EV-SRK-HL-24022-FIN-M9"],
+          "attentionPath": [
+            { "x": 29, "y": 45, "w": 52, "h": 17, "durationMs": 830, "label": "Deposit spike" },
+            { "x": 18, "y": 67, "w": 58, "h": 11, "durationMs": 540, "label": "Reversal line" }
+          ],
+          "counterfactualRiskDelta": -37
+        }
+      ],
+      "riskDecomposition": [
+        { "id": "documentAuthenticity", "label": "Document Authenticity", "weight": 30, "score": 58, "drivers": ["Statement template acceptable but needs original file"], "anomalyIds": [] },
+        { "id": "dataVeracity", "label": "Data Veracity", "weight": 25, "score": 72, "drivers": ["GST turnover exceeds bank inflow rhythm"], "anomalyIds": ["ANM-MSME-CIRCULAR-DEPOSIT"] },
+        { "id": "financialIntegrity", "label": "Financial Integrity", "weight": 25, "score": 89, "drivers": ["Circular deposit pattern"], "anomalyIds": ["ANM-MSME-CIRCULAR-DEPOSIT"] },
+        { "id": "sourceTrustworthiness", "label": "Source Trustworthiness", "weight": 20, "score": 64, "drivers": ["Counterparty needs field validation"], "anomalyIds": ["ANM-MSME-CIRCULAR-DEPOSIT"] }
+      ],
+      "memo": "The MSME statement contains a high-confidence circular deposit pattern that materially changes working-capital eligibility. Recommended action: hold enhancement and request GST-linked invoices plus counterparty confirmation.",
+      "nextActions": ["Hold enhancement request.", "Request invoice trail for spike month.", "Run Qwen explanation on selected fund path."]
+    },
+    {
+      "caseId": "SRK-GL-24031",
+      "profileId": "retail-home-loan",
+      "scenario": "Property-backed overdraft with legal opinion seal and witness concerns.",
+      "documents": [
+        { "id": "doc-legal-opinion", "title": "Legal Opinion", "kind": "legal-document", "category": "Legal Documents", "pageCount": 4, "status": "flagged", "sourceType": "borrower-upload" },
+        { "id": "doc-stamp-region", "title": "Advocate Seal Crop", "kind": "image", "category": "Legal Documents", "pageCount": 1, "status": "flagged", "sourceType": "borrower-upload" }
+      ],
+      "ingestionSteps": [
+        "Classifying legal opinion and seal crop.",
+        "Extracting witness, advocate and property identifiers.",
+        "Comparing seal and signature regions with demo specimen vault.",
+        "Preparing legal-risk explanation cards."
+      ],
+      "anomalies": [
+        {
+          "id": "ANM-LEGAL-SEAL-COMPRESSION",
+          "stream": "visualIntegrity",
+          "documentId": "doc-stamp-region",
+          "page": 1,
+          "bbox": { "x": 65, "y": 62, "w": 18, "h": 17 },
+          "severity": "high",
+          "confidence": 79,
+          "title": "Advocate seal compression mismatch",
+          "why": "The seal region has a different compression field and lacks continuous circular ink spread.",
+          "observed": "Seal boundary has clipped edges and repeated block artifacts.",
+          "baseline": "Demo advocate seal specimen expects continuous circular edge and medium ink spread.",
+          "microViz": { "type": "spectrum", "label": "Seal specimen match", "value": 39, "referenceValue": 78, "unit": "%" },
+          "sourceTrace": [
+            { "id": "REG-SEAL-SPECIMEN", "label": "Demo seal specimen", "source": "demo-legal-specimen-vault", "status": "demo-local" }
+          ],
+          "evidenceIds": ["EV-SRK-GL-24031-SEAL"],
+          "attentionPath": [
+            { "x": 62, "y": 58, "w": 24, "h": 24, "durationMs": 920, "label": "Seal crop" },
+            { "x": 34, "y": 26, "w": 42, "h": 14, "durationMs": 510, "label": "Advocate line" }
+          ],
+          "counterfactualRiskDelta": -14
+        }
+      ],
+      "riskDecomposition": [
+        { "id": "documentAuthenticity", "label": "Document Authenticity", "weight": 30, "score": 66, "drivers": ["Seal compression mismatch"], "anomalyIds": ["ANM-LEGAL-SEAL-COMPRESSION"] },
+        { "id": "dataVeracity", "label": "Data Veracity", "weight": 25, "score": 55, "drivers": ["Witness link requires review"], "anomalyIds": [] },
+        { "id": "financialIntegrity", "label": "Financial Integrity", "weight": 25, "score": 43, "drivers": ["Statement rhythm is acceptable"], "anomalyIds": [] },
+        { "id": "sourceTrustworthiness", "label": "Source Trustworthiness", "weight": 20, "score": 58, "drivers": ["Legal source confirmation pending"], "anomalyIds": ["ANM-LEGAL-SEAL-COMPRESSION"] }
+      ],
+      "memo": "The legal opinion has a seal-region anomaly and witness-source concern. Recommended action: request advocate confirmation and original stamped opinion before overdraft sanction.",
+      "nextActions": ["Ask legal risk desk to verify advocate seal.", "Request original legal opinion.", "Document reviewer conclusion in audit trail."]
+    },
+    {
+      "caseId": "SRK-RL-24044",
+      "profileId": "retail-home-loan",
+      "scenario": "Retail home loan with minor resolved KYC spacing issue.",
+      "documents": [
+        { "id": "doc-retail-application", "title": "Application Form", "kind": "application", "category": "Identity Documents", "pageCount": 2, "status": "clear", "sourceType": "borrower-upload" },
+        { "id": "doc-retail-income", "title": "Income Proof", "kind": "financial", "category": "Financial Statements", "pageCount": 1, "status": "clear", "sourceType": "borrower-upload" }
+      ],
+      "ingestionSteps": [
+        "Classifying application and income proof.",
+        "Normalizing name spacing and KYC aliases.",
+        "Checking income continuity and account rhythm.",
+        "Preparing low-risk explanation summary."
+      ],
+      "anomalies": [
+        {
+          "id": "ANM-RETAIL-PAN-SPACING",
+          "stream": "dataConsistency",
+          "documentId": "doc-retail-application",
+          "page": 1,
+          "bbox": { "x": 28, "y": 34, "w": 31, "h": 8 },
+          "severity": "low",
+          "confidence": 62,
+          "title": "PAN name spacing normalized",
+          "why": "A minor spacing mismatch is resolved by alias normalization and does not change underwriting risk materially.",
+          "observed": "Name spacing differs by one whitespace token.",
+          "baseline": "PAN and application name normalize to the same applicant identity.",
+          "microViz": { "type": "spectrum", "label": "Alias match", "value": 94, "referenceValue": 90, "unit": "%" },
+          "sourceTrace": [
+            { "id": "REG-KYC-ALIAS", "label": "Demo KYC alias normalization", "source": "demo-local", "status": "demo-local" }
+          ],
+          "evidenceIds": ["EV-SRK-RL-24044-KYC"],
+          "attentionPath": [
+            { "x": 25, "y": 31, "w": 38, "h": 13, "durationMs": 420, "label": "PAN name field" }
+          ],
+          "counterfactualRiskDelta": -3
+        }
+      ],
+      "riskDecomposition": [
+        { "id": "documentAuthenticity", "label": "Document Authenticity", "weight": 30, "score": 18, "drivers": ["No material document anomaly"], "anomalyIds": [] },
+        { "id": "dataVeracity", "label": "Data Veracity", "weight": 25, "score": 22, "drivers": ["Name spacing normalized"], "anomalyIds": ["ANM-RETAIL-PAN-SPACING"] },
+        { "id": "financialIntegrity", "label": "Financial Integrity", "weight": 25, "score": 21, "drivers": ["Income continuity within expected range"], "anomalyIds": [] },
+        { "id": "sourceTrustworthiness", "label": "Source Trustworthiness", "weight": 20, "score": 24, "drivers": ["No current adverse public-source signal"], "anomalyIds": [] }
+      ],
+      "memo": "This retail home-loan file has no material anomaly. The only data issue is a resolved PAN spacing mismatch. Recommended action: proceed with standard underwriting controls.",
+      "nextActions": ["Proceed with standard controls.", "Keep source watcher active until sanction package is closed."]
+    }
+  ]
+}
