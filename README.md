@@ -13,10 +13,12 @@
 
 <p align="center">
   <a href="#the-prototype-story">Story</a> |
+  <a href="#live-ui-surfaces">UI</a> |
   <a href="#how-the-demo-feels">Demo Flow</a> |
   <a href="#architecture">Architecture</a> |
   <a href="#ai-core">AI Core</a> |
   <a href="#run-locally">Run Locally</a> |
+  <a href="#operational-workarounds-and-fallbacks">Fallbacks</a> |
   <a href="#validation">Validation</a>
 </p>
 
@@ -25,6 +27,34 @@ SuRaksha Sentinel is a full-stack hackathon prototype for the SuRaksha Cyber Hac
 This repository does not claim access to Canara Bank internal systems, internal data, production transaction streams, or non-public architecture. The Canara alignment is intentionally limited to public-facing digital banking patterns, public Canara material, public regulator/security sources, and a local demo environment that makes the Theme 1 workflow concrete. All demo registry and transaction facts are marked as local demo data, while live public connectors expose provenance, freshness, and degraded states instead of pretending stale data is live.
 
 The visuals in this README are badges and Mermaid diagrams generated from the repository architecture. They are documentation diagrams, not screenshots and not fictional UI captures.
+
+## Live UI Surfaces
+
+The screenshots in this section are captured from the running local prototype at `http://127.0.0.1:5173` with the backend active at `http://127.0.0.1:8001`. They are included so the repository shows the actual implemented interface rather than only describing the intended experience. The values shown in the screenshots are live prototype state and can change as the backend emits new snapshots, connector freshness changes, and the selected case rotates.
+
+The Command Center is the first operator surface. It presents the Canara-inspired navigation, active underwriting desk, live source ticker, case selector, Qwen readiness, primary workflow actions, Sentinel Risk Index, source freshness, and public-system benchmark mapping. This is the entry point for evaluators who need to understand the branch context before drilling into documents or source intelligence.
+
+<p align="center">
+  <img src="docs/screenshots/command-center.png" alt="SuRaksha Sentinel Command Center showing active case, risk index, Qwen context, source freshness, and public benchmark cards">
+</p>
+
+The Explainable Detection surface is the primary Theme 1 workbench. It shows the loan-profile specific ingestion stage, required document set, progress stream, composite risk gauge, and the start of the synchronized document-and-reasoning workflow. This view is where the prototype demonstrates that the anomaly pipeline is tied to underwriting context rather than a generic upload screen.
+
+<p align="center">
+  <img src="docs/screenshots/explainable-detection.png" alt="Explainable Detection workbench showing loan profile ingestion, progress stream, and composite risk for an agricultural land mortgage case">
+</p>
+
+The Financials workspace carries the 3D fund-flow investigation surface. It uses local demo transaction data derived from dossier context, not production bank transactions, and renders a live risk-colored Three.js scene with transaction paths, path selection, risk floor control, and Qwen flow explanation actions. The point of this screen is to connect document risk with suspicious financial movement in a way that a flat table cannot.
+
+<p align="center">
+  <img src="docs/screenshots/financials-3d-flow.png" alt="Financials tab showing the 3D live fund-flow tracker with risk-colored transaction paths and selected path details">
+</p>
+
+The Signal Radar surface shows the public-source media and intelligence layer. Its media wall is generated from backend source resolution, connector outputs, source profile cards, video thumbnails, image previews, and PDF/circular representations. It is intentionally visible because the prototype should not feel like it is hiding behind static placeholder cards.
+
+<p align="center">
+  <img src="docs/screenshots/signal-radar-media.png" alt="Signal Radar tab showing expanded live public-source image, PDF, and video preview cards">
+</p>
 
 ## The Prototype Story
 
@@ -348,6 +378,18 @@ Invoke-RestMethod http://127.0.0.1:8001/api/qwen/runtime
 
 For a complete demo pass, the frontend should render without horizontal overflow on desktop and mobile, the Explainable Detection workflow should update when loan profile and anomaly selections change, media previews should not show broken images, 3D scenes should remain nonblank and preserve camera movement, and the agent dock should answer with citations while refusing unsupported actions. The Qwen runtime should report the configured model, effective context, optimized task profile, and fallback state clearly.
 
+## Operational Workarounds And Fallbacks
+
+The prototype is designed to keep the demo usable even when one live dependency is weak. If a public connector times out, the backend keeps the latest usable cache as stale context and exposes the stale or degraded state in the UI. It does not silently rename stale data as fresh live intelligence. This is important for evaluator trust because a banking prototype should be honest about source quality.
+
+If source media extraction cannot embed a public page image, PDF, or video thumbnail directly, the source media service falls back through proxy, PDF preview, page preview, and source-profile representations. The UI still labels the preview by media kind and provenance so a reviewer can tell the difference between a direct thumbnail, a circular/PDF representation, and a connector evidence profile. Uploaded evidence remains available through the local media catalog when public media is unavailable.
+
+If Qwen is not running, not resident, slow, or returns malformed JSON, the document explanation, flow brief, memo, counterfactual, audit replay, and agent response paths use deterministic fallback text. The fallback is deliberately less ambitious than a model response, but it preserves citations, evidence IDs, and reviewer next actions so the workflow does not collapse during a demo.
+
+If WebGL is unavailable or a 3D scene cannot initialize, the financial and entity surfaces are expected to fall back to enhanced 2D summaries and selected-path details rather than showing a blank canvas. When WebGL is available, user camera movement is preserved so dragging or zooming the 3D scene does not immediately snap back to the default view.
+
+If local ports are changed, the backend and frontend must move together. The repository defaults to backend `8001`, frontend `5173`, and Ollama `11434`; changing `BACKEND_PORT` also requires updating `BACKEND_ORIGIN` and `VITE_API_BASE` in `.env`. This explicit port configuration is the workaround for the common local-development failure where the frontend is healthy but points at an old backend.
+
 ## Demo Narrative
 
 The strongest seven-minute demo starts with a Canara branch underwriting context. The presenter selects a high-risk agricultural or MSME case, shows that public sources and local Qwen are active, and explains that the application is built for human decision support rather than automatic rejection.
@@ -387,4 +429,3 @@ The local-first Qwen setup is central to that boundary. Sensitive borrower docum
 Most local failures come from port mismatch, a stopped backend, a stale `.env`, or an unavailable Qwen runtime. If the frontend fetches fail, confirm that `VITE_API_BASE` points to `http://127.0.0.1:8001` and that the backend is running. If Qwen features fall back, run `ollama ps`, confirm that `qwen3.5:4b-q4_K_M` is available, then use the warm endpoint or Qwen Ops surface. If media previews look sparse, refresh connectors and remember that source preview caches are intentionally local under `data/cache/`. If a 3D scene is blank, check WebGL support; the UI is expected to fall back gracefully rather than leaving an empty work area.
 
 Generated files are intentionally ignored. Python bytecode, frontend build output, `node_modules`, `.env`, upload folders, connector caches, browser smoke profiles, and runtime logs should not be committed. New case facts should go into the structured data packs under `data/`, while new backend behavior should generally live in a focused service under `backend/app/services/`.
-
