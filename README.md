@@ -8,6 +8,15 @@
 </p>
 
 <p align="center">
+  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-Backend-009688?style=flat-square&logo=fastapi&logoColor=white">
+  <img alt="React" src="https://img.shields.io/badge/React-Workbench-087ea4?style=flat-square&logo=react&logoColor=white">
+  <img alt="Vite" src="https://img.shields.io/badge/Vite-Frontend-646cff?style=flat-square&logo=vite&logoColor=white">
+  <img alt="Three.js" src="https://img.shields.io/badge/Three.js-3D_Analytics-111111?style=flat-square&logo=threedotjs&logoColor=white">
+  <img alt="Ollama" src="https://img.shields.io/badge/Ollama-Local_Qwen-222222?style=flat-square&logo=ollama&logoColor=white">
+  <img alt="Recharts" src="https://img.shields.io/badge/Recharts-Live_Charts-d83b01?style=flat-square">
+</p>
+
+<p align="center">
   <b>Canara-inspired explainable underwriting intelligence for real-time document, source, entity, and fund-flow anomaly detection.</b>
 </p>
 
@@ -26,7 +35,7 @@ SuRaksha Sentinel is a full-stack hackathon prototype for the SuRaksha Cyber Hac
 
 This repository does not claim access to Canara Bank internal systems, internal data, production transaction streams, or non-public architecture. The Canara alignment is intentionally limited to public-facing digital banking patterns, public Canara material, public regulator/security sources, and a local demo environment that makes the Theme 1 workflow concrete. All demo registry and transaction facts are marked as local demo data, while live public connectors expose provenance, freshness, and degraded states instead of pretending stale data is live.
 
-The visuals in this README are badges and Mermaid diagrams generated from the repository architecture. They are documentation diagrams, not screenshots and not fictional UI captures.
+The visuals in this README are stack badges, Mermaid diagrams, and real screenshots/GIF frames captured from the running local prototype. They are included to show the implemented interface, not to imply production Canara access or fictional UI states.
 
 ## Live UI Surfaces
 
@@ -50,10 +59,52 @@ The Financials workspace carries the 3D fund-flow investigation surface. It uses
   <img src="docs/screenshots/financials-3d-flow.png" alt="Financials tab showing the 3D live fund-flow tracker with risk-colored transaction paths and selected path details">
 </p>
 
+The short animation below is generated from real captured Financials frames. It is intentionally compact for the README, but it shows the live 3D fund-flow scene as an animated investigative surface rather than a static diagram.
+
+<p align="center">
+  <img src="docs/screenshots/fund-flow-animation.gif" alt="Animated Financials view showing live 3D fund-flow motion from captured prototype frames">
+</p>
+
 The Signal Radar surface shows the public-source media and intelligence layer. Its media wall is generated from backend source resolution, connector outputs, source profile cards, video thumbnails, image previews, and PDF/circular representations. It is intentionally visible because the prototype should not feel like it is hiding behind static placeholder cards.
 
 <p align="center">
   <img src="docs/screenshots/signal-radar-media.png" alt="Signal Radar tab showing expanded live public-source image, PDF, and video preview cards">
+</p>
+
+The graph and map screenshots below show the supporting intelligence layer behind the document workflow. Entity Graph combines a 3D relationship surface with a 2D evidence graph and path review, while the geo risk map keeps collateral geography visible through live coordinate-based risk markers and map-tile fallback behavior.
+
+<p align="center">
+  <img src="docs/screenshots/entity-graph-analytics.png" alt="Entity Graph tab showing the 3D evidence relationship graph and risk-ranked entity list">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/geo-risk-map.png" alt="Geo risk map showing collateral geography, evidence graph, entity path review, and source risk markers">
+</p>
+
+The 2D evidence graph gives a denser read of path materiality and source overlap when a reviewer does not need the full 3D canvas. It is kept beside the map and path review so collateral geography, entity relationships, and source evidence remain in the same investigative frame.
+
+<p align="center">
+  <img src="docs/screenshots/evidence-graph.png" alt="Evidence graph and geo map view showing entity paths, source overlap, and collateral risk markers">
+</p>
+
+The charting layer is captured from the Financials workspace. It includes a cash-flow anomaly line chart, a month-by-month stress strip, the detector/Qwen/source consensus matrix, and materiality category scoring. These views are meant to make the analytical evidence visible in the README instead of only describing it in text.
+
+<p align="center">
+  <img src="docs/screenshots/cash-flow-anomaly-profile.png" alt="Cash-flow and anomaly profile chart with inflow, outflow, spread, anomaly, and monthly stress indicators">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/anomaly-consensus-matrix.png" alt="Anomaly consensus matrix showing detector, Qwen, external source, and consensus scores beside financial charting">
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/category-scores-chart.png" alt="Category scores materiality chart with ranked underwriting anomaly categories">
+</p>
+
+The ledger view closes the financial story by showing individual generated demo transaction events with channel, amount, risk, materiality, and provenance labels. The data is local demo simulation derived from dossier and connector pressure; it is not represented as production bank transaction data.
+
+<p align="center">
+  <img src="docs/screenshots/fund-flow-ledger.png" alt="Fund-flow anomaly ledger showing demo transaction events, risk values, and provenance labels">
 </p>
 
 ## The Prototype Story
